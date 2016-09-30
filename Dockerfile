@@ -43,7 +43,7 @@ RUN set -xe \
         --virtual .phpize_deps \
         $PHPIZE_DEPS \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
-    && pecl install yaml-beta \
+    && pecl install yaml-2.0.0 \
     && echo "extension=yaml.so" > /etc/php7/conf.d/01_yaml.ini \
     && rm -rf /usr/share/php7 \
     && apk del .phpize_deps
