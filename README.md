@@ -2,7 +2,6 @@
 
 [![](https://images.microbadger.com/badges/image/graze/php-alpine.svg)](https://microbadger.com/images/graze/php-alpine "Get your own image badge on microbadger.com")
 
-
 Public image for php7 alpine with a set of common extensions
 
 ## Building
@@ -16,3 +15,7 @@ Public image for php7 alpine with a set of common extensions
 ## Usage
 
     $ docker run --rm graze/php-alpine -v $(pwd):/srv php some/script.php
+
+## Running with phpdbg:
+
+    $ docker run --rm graze/php-alpine:test -v $(pwd):/srv phpdbg7 some/script.php
