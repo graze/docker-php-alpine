@@ -1,0 +1,56 @@
+FROM alpine:edge
+
+MAINTAINER "Harry Bragg <harry.bragg@graze.com>"
+
+LABEL license=MIT
+
+RUN apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
+    ca-certificates \
+    openssh \
+    yaml-dev \
+     php7.1 \
+    php7.1-apcu \
+    php7.1-bcmath \
+    php7.1-ctype \
+    php7.1-curl \
+    php7.1-dom \
+    php7.1-iconv \
+    php7.1-intl \
+    php7.1-json \
+    php7.1-openssl \
+    php7.1-opcache \
+    php7.1-mbstring \
+    php7.1-mcrypt \
+    php7.1-memcached \
+    php7.1-mysqlnd \
+    php7.1-mysqli \
+    php7.1-pgsql \
+    php7.1-phpdbg \
+    php7.1-pdo_mysql \
+    php7.1-pdo_pgsql \
+    php7.1-pdo_sqlite \
+    php7.1-phar \
+    php7.1-posix \
+    php7.1-soap \
+    php7.1-sockets \
+    php7.1-xml \
+    php7.1-xmlreader \
+    php7.1-zip \
+    php7.1-zlib
+
+# install and remove building packages
+ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php7.1-dev php7.1-pear
+
+RUN set -xe \
+    && apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
+        --virtual .phpize_deps \
+        $PHPIZE_DEPS \
+    && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
+    && pecl install yaml-2.0.0 \
+    && echo "extension=yaml.so" > /etc/php7/conf.d/01_yaml.ini \
+    && rm -rf /usr/share/php7 \
+    && apk del .phpize_deps
+
+COPY php/php.ini /etc/php7/
+
+WORKDIR /srv

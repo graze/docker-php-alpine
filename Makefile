@@ -6,6 +6,14 @@ CHECK := $(foreach executable,$(EXECUTABLES),\
 
 .PHONY: build
 .DEFAULT: build
-build:
-	docker build -t graze/php-alpine:latest -t graze/php-alpine:7.0 .
-	docker build -t graze/php-alpine:test -t graze/php-alpine:7.0-test -f Dockerfile.test .
+build: 7.0 7.1
+
+.PHONY: 7.0
+7.0:
+	docker build -t graze/php-alpine:7.0 7.0/.
+	docker build -t graze/php-alpine:7.0-test -f 7.0/Dockerfile.test 7.0/.
+
+.PHONY: 7.1
+7.1:
+	docker build -t graze/php-alpine:latest -t graze/php-alpine:7.1 7.1/.
+	docker build -t graze/php-alpine:test -t graze/php-alpine:7.1-test -f 7.1/Dockerfile.test 7.1/.
