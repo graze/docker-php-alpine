@@ -6,11 +6,11 @@ LABEL license=MIT
 
 RUN apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/community" \
     ca-certificates \
-    openssh \
     yaml \
     pcre \
     libmemcached-libs \
     zlib \
+    openssh-client \
     php7 \
     php7-bcmath \
     php7-ctype \
@@ -54,7 +54,7 @@ RUN set -xe \
     && echo "extension=memcached.so" > /etc/php7/conf.d/20_memcached.ini \
     && echo "extension=apcu.so" > /etc/php7/conf.d/01_apcu.ini \
     && rm -rf /usr/share/php7 \
-    && apk del .phpize_deps
+    && apk del .phpize-deps
 
 RUN ln -s /usr/bin/php7 /usr/bin/php
 

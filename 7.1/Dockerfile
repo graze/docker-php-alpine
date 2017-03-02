@@ -6,8 +6,10 @@ LABEL license=MIT
 
 RUN apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
     ca-certificates \
-    openssh \
-    yaml-dev \
+    openssh-client \
+    libmemcached-libs \
+    musl \
+    yaml \
     php7.1 \
     php7.1-bcmath \
     php7.1-ctype \
@@ -36,18 +38,18 @@ RUN apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/t
     php7.1-zlib
 
 # install and remove building packages
-ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php7-dev php7-pear
+ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php7.1-dev php7.1-pear pcre-dev zlib-dev libmemcached-dev cyrus-sasl-dev yaml-dev
 
 RUN set -xe \
     && apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
-        --virtual .phpize_deps \
+        --virtual .phpize-deps \
         $PHPIZE_DEPS \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
-    && pecl install yaml-2.0.0 \
-    && echo "extension=yaml.so" > /etc/php7/conf.d/01_yaml.ini \
+    && pecl install yaml-2.0.0 memcached apcu \
+    && echo "extension=yaml.so" > /etc/php7.1/conf.d/01_yaml.ini \
+    && echo "extension=memcached.so" > /etc/php7.1/conf.d/01_memcached.ini \
+    && echo "extension=apcu.so" > /etc/php7.1/conf.d/01_apcu.ini \
     && rm -rf /usr/share/php7 \
-    && apk del .phpize_deps
-
-COPY php/php.ini /etc/php7/
+    && apk del .phpize-deps
 
 WORKDIR /srv
