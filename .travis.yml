@@ -6,14 +6,12 @@ before_install:
 - sudo add-apt-repository ppa:duggan/bats --yes
 - sudo apt-get update -qq
 - sudo apt-get install -qq bats jq
-- export NOW=$(shell date -u +%Y%m%d-%H%M)
 script:
-- echo $NOW
 - make build
 - make test
 deploy:
 - provider: script
-  script: echo "$DOCKER_USERNAME"; docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"; echo "pretending to push at ${NOW}"
+  script: echo "$DOCKER_USERNAME"; docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"; echo "pretending to push"
   on:
     branch: "7.1"
 
