@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 
-readonly container="graze/php-alpine:7.1"
+readonly container="graze/php-alpine:5.6-debug"
 
 @test "php version is correct" {
   run docker run --rm ${container} php -v
@@ -9,7 +9,7 @@ readonly container="graze/php-alpine:7.1"
   version="$(echo $output | sed 's/.*PHP \([0-9].[0-9]\).*/\1/')"
   echo 'version:' $version
   [ "$status" -eq 0 ]
-  [[ "$version" == "7.1" ]]
+  [[ "$version" == "5.6" ]]
 }
 
 @test "the image has the correct php modules installed" {
@@ -17,7 +17,6 @@ readonly container="graze/php-alpine:7.1"
   echo 'status:' $status
   echo 'output:' $output
   [ "$status" -eq 0 ]
-  [[ "${output}" == *apcu* ]]
   [[ "${output}" == *bcmath* ]]
   [[ "${output}" == *curl* ]]
   [[ "${output}" == *dom* ]]
@@ -40,6 +39,7 @@ readonly container="graze/php-alpine:7.1"
   [[ "${output}" == *pgsql* ]]
   [[ "${output}" == *soap* ]]
   [[ "${output}" == *sockets* ]]
+  [[ "${output}" == *xdebug* ]]
   [[ "${output}" == *xml* ]]
   [[ "${output}" == *xml_reader* ]]
   [[ "${output}" == *yaml* ]]
@@ -63,4 +63,3 @@ readonly container="graze/php-alpine:7.1"
   [ "$status" -eq 0 ]
   [ "$output" = "" ]
 }
-

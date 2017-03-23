@@ -36,6 +36,7 @@ readonly container="graze/php-alpine:7.0"
   [[ "${output}" == *pdo* ]]
   [[ "${output}" == *pdo_mysql* ]]
   [[ "${output}" == *pdo_pgsql* ]]
+  [[ "${output}" == *pdo_sqllite* ]]
   [[ "${output}" == *pgsql* ]]
   [[ "${output}" == *soap* ]]
   [[ "${output}" == *sockets* ]]
@@ -44,6 +45,15 @@ readonly container="graze/php-alpine:7.0"
   [[ "${output}" == *yaml* ]]
   [[ "${output}" == *zip* ]]
   [[ "${output}" == *zlib* ]]
+}
+
+@test "the image does not return any warnings" {
+  run docker run ${container} php -m
+  echo 'status:' $status
+  echo 'output:' $output
+  [ "$status" -eq 0 ]
+  [[ "${output}" != *"PHP Warning"* ]]
+  [[ "${output}" != *"PHP Notice"* ]]
 }
 
 @test "the image has an empty entrypoint" {

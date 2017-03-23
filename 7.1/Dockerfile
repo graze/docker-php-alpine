@@ -10,35 +10,36 @@ RUN apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/t
     libmemcached-libs \
     musl \
     yaml \
-    php7.1 \
-    php7.1-bcmath \
-    php7.1-ctype \
-    php7.1-curl \
-    php7.1-dom \
-    php7.1-iconv \
-    php7.1-intl \
-    php7.1-json \
-    php7.1-openssl \
-    php7.1-opcache \
-    php7.1-mbstring \
-    php7.1-mcrypt \
-    php7.1-mysqlnd \
-    php7.1-mysqli \
-    php7.1-pgsql \
-    php7.1-pdo_mysql \
-    php7.1-pdo_pgsql \
-    php7.1-pdo_sqlite \
-    php7.1-phar \
-    php7.1-posix \
-    php7.1-soap \
-    php7.1-sockets \
-    php7.1-xml \
-    php7.1-xmlreader \
-    php7.1-zip \
-    php7.1-zlib
+    php7 \
+    php7-bcmath \
+    php7-ctype \
+    php7-curl \
+    php7-dom \
+    php7-iconv \
+    php7-intl \
+    php7-json \
+    php7-openssl \
+    php7-opcache \
+    php7-mbstring \
+    php7-mcrypt \
+    php7-mysqlnd \
+    php7-mysqli \
+    php7-pgsql \
+    php7-pdo_mysql \
+    php7-pdo_pgsql \
+    php7-pdo_sqlite \
+    php7-phar \
+    php7-posix \
+    php7-soap \
+    php7-sockets \
+    php7-xml \
+    php7-xmlreader \
+    php7-zip \
+    php7-zlib
 
 # install and remove building packages
-ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php7.1-dev php7.1-pear pcre-dev zlib-dev libmemcached-dev cyrus-sasl-dev yaml-dev
+ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php7-dev php7-pear \
+    pcre-dev zlib-dev libmemcached-dev cyrus-sasl-dev yaml-dev
 
 RUN set -xe \
     && apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
@@ -46,9 +47,9 @@ RUN set -xe \
         $PHPIZE_DEPS \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
     && pecl install yaml-2.0.0 memcached apcu \
-    && echo "extension=yaml.so" > /etc/php7.1/conf.d/01_yaml.ini \
-    && echo "extension=memcached.so" > /etc/php7.1/conf.d/01_memcached.ini \
-    && echo "extension=apcu.so" > /etc/php7.1/conf.d/01_apcu.ini \
+    && echo "extension=yaml.so" > /etc/php7/conf.d/01_yaml.ini \
+    && echo "extension=memcached.so" > /etc/php7/conf.d/01_memcached.ini \
+    && echo "extension=apcu.so" > /etc/php7/conf.d/01_apcu.ini \
     && rm -rf /usr/share/php7 \
     && apk del .phpize-deps
 
