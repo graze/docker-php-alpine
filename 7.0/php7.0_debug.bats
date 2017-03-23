@@ -31,7 +31,6 @@ readonly container="graze/php-alpine:7.0-test"
   [[ "${output}" == *mysql* ]]
   [[ "${output}" == *mysqli* ]]
   [[ "${output}" == *openssl* ]]
-  [[ "${output}" == *phpdbg* ]]
   [[ "${output}" == *pdo* ]]
   [[ "${output}" == *pdo_mysql* ]]
   [[ "${output}" == *pdo_pgsql* ]]
@@ -44,6 +43,14 @@ readonly container="graze/php-alpine:7.0-test"
   [[ "${output}" == *yaml* ]]
   [[ "${output}" == *zip* ]]
   [[ "${output}" == *zlib* ]]
+}
+
+@test "the image has phpdbg" {
+  run docker run ${container} which phpdbg7
+  echo 'status:' $status
+  echo 'output:' $output
+  [ $status" -eq 0 ]
+  [[ "${output}" == *"phpdbg7"* ]]
 }
 
 @test "the image does not return any warnings" {

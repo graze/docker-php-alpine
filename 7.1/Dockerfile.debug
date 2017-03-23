@@ -31,6 +31,7 @@ RUN apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/t
     php7-pdo_sqlite \
     php7-phar \
     php7-posix \
+    php7-session \
     php7-soap \
     php7-sockets \
     php7-xml \
