@@ -1,15 +1,23 @@
 sudo: required
 language: generic
 services:
-- docker
+  - docker
+
 before_install:
-- sudo add-apt-repository ppa:duggan/bats --yes
-- sudo apt-get update -qq
-- sudo apt-get install -qq bats jq
+  - sudo add-apt-repository ppa:duggan/bats --yes
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq bats jq
+
+env:
+  - VER=5.6
+  - VER=7.0
+  - VER=7.1
+
 script:
-- make build-5.6 test-5.6 clean-5.6
-- make build-7.0 test-7.0 clean-7.0
-- make build-7.1 test-7.1 clean-7.1
+  - make build
+  - make test
+  - make clean
+
 deploy:
 - provider: script
   script: echo "$DOCKER_USERNAME"; docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"; echo "pretending to push"
