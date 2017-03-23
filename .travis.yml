@@ -8,13 +8,15 @@ before_install:
 - sudo apt-get install -qq bats jq
 - export NOW=$(shell date -u +%Y%m%d-%H%M)
 script:
+- echo $NOW
 - make build
 - make test
 deploy:
 - provider: script
-  script: docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}"; echo "pretending to push at ${NOW}"
+  script: echo "$DOCKER_USERNAME"; docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"; echo "pretending to push at ${NOW}"
   on:
     branch: "7.1"
+
 DOCKER_USERNAME:
   secure: I48ZcnefnG63Y6Je+w2Pr37rvC3z4C6s7mbSfdrOk+7YtVlEEEyfMMyrSVucehVK9hPYrQgJYQVvpGCiW62DkJzVBBiduB/8nHYZTQH/ZWmM54sOJ1CmiqEBFER1olXJ7Spj93HPcB9Eh8wWruY6cbAxqp9khLNJkL7SV4g2KbgT0TF+X8pVo7GTOrNRZ1EP49kH8wgQpr8pYy3qLi7aXPC+I6Jew+hmtMlxRa3+CMWytz7x6luX1mteKwMVp4PjzrMEgRRWANnzFqFq59PZI/6xgXEhkD5M5/yTrrGjVq2ltPsaynNfah2/C6/ftK1exZT3P3dKAJ+WHnR5aSTAJTPv2rLnS0cIYqzCaNxZzHRJv5/tJqwavF79/0hocBZ2b0SwAr3++FUZIo27T+f8918CG39tPLkfqn0Ix2B22GG9ZE8IG6p+1DukLlQhU2KYTc179XoWU8TIxLiXKC1SoGo5lCirtWqeerJDG/l+e77vHbIoArxwDK8X/kOkzxvl1GuQ5nVwEMkigEr+vGXIgs/4rLwRTORZzx4mERFqzcVdufZn68VoH6reaOq+WYz1KwOj4zppA7GV5+FM826G/da2TAlQ/DnokgzMxvXFL0o3gTuGOQYqNgsbBtDBGvB0MZ4K4TzVnzzUF9PU+W3sApaNmJeecuEqqSJiXFTsMKo=
 DOCKER_PASSWORD:
