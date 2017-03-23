@@ -38,7 +38,7 @@ tag-5.6:
 	docker tag graze/php-alpine:5.6 graze/php-alpine:5
 	docker tag graze/php-alpine:5.6 graze/php-alpine:5-${NOW}
 	docker tag graze/php-alpine:5.6 graze/php-alpine:5.6-${NOW}
-	docker tag graze/php-alpine:5.6-test graze/php-alpine:5.6-test
+	docker tag graze/php-alpine:5.6-test graze/php-alpine:5-test
 	docker tag graze/php-alpine:5.6-test graze/php-alpine:5-test-${NOW}
 	docker tag graze/php-alpine:5.6-test graze/php-alpine:5.6-test-${NOW}
 
@@ -49,10 +49,10 @@ test-5.6:
 push-5.6:
 	docker push graze/php-alpine:5.6
 	docker push graze/php-alpine:5
-	docker push graze/php-alpine:5.6-${NOW}
-	docker push graze/php-alpine:5-${NOW}
 	docker push graze/php-alpine:5.6-test
 	docker push graze/php-alpine:5-test
+	docker push graze/php-alpine:5.6-${NOW}
+	docker push graze/php-alpine:5-${NOW}
 	docker push graze/php-alpine:5.6-test-${NOW}
 	docker push graze/php-alpine:5-test-${NOW}
 
