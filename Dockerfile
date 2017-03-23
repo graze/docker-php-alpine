@@ -4,7 +4,7 @@ MAINTAINER "Harry Bragg <harry.bragg@graze.com>"
 
 LABEL license=MIT
 
-RUN apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
+RUN apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/community" \
     ca-certificates \
     openssh \
     yaml \
@@ -44,7 +44,7 @@ ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php7-dev php7-p
         yaml-dev pcre-dev zlib-dev libmemcached-dev cyrus-sasl-dev
 
 RUN set -xe \
-    && apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
+    && apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/community" \
         --virtual .phpize_deps \
         $PHPIZE_DEPS \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
@@ -54,6 +54,8 @@ RUN set -xe \
     && echo "extension=apcu.so" > /etc/php7/conf.d/01_apcu.ini \
     && rm -rf /usr/share/php7 \
     && apk del .phpize_deps
+
+RUN ln -s /usr/bin/php7 /usr/bin/php
 
 COPY php/php.ini /etc/php7/
 
