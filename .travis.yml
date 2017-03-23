@@ -7,8 +7,9 @@ before_install:
 - sudo apt-get update -qq
 - sudo apt-get install -qq bats jq
 script:
-- make build
-- make test
+- make build-5.6 test-5.6 clean-5.6
+- make build-7.0 test-7.0 clean-7.0
+- make build-7.1 test-7.1 clean-7.1
 deploy:
 - provider: script
   script: echo "$DOCKER_USERNAME"; docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"; echo "pretending to push"

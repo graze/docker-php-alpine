@@ -9,6 +9,7 @@ NOW ?= $(shell date -u +%Y%m%d-%H%M)
 .PHONY: tag tag-5.6 tag-7.0 tag-7.1
 .PHONY: test test-5.6 test-7.0 test-7.1
 .PHONY: push push-5.6 push-7.0 push-7.1
+.PHONY: clean
 .PHONY: deploy
 
 .DEFAULT: build
@@ -19,6 +20,7 @@ build-quick:
 test: test-5.6 test-7.0 test-7.1
 tag: tag-5.6 tag-7.0 tag-7.1
 push: push-5.6 push-7.0 push-7.1
+clean: clean-5.6 clean-7.0 clean-7.1
 
 deploy: build-quick tag push
 
@@ -26,6 +28,9 @@ build-%: cache ?=--pull --no-cache
 build-%: ## build a generic image
 	docker build ${cache} -t graze/php-alpine:$* $*/.
 	docker build ${cache} -t graze/php-alpine:$*-test -f $*/Dockerfile.debug $*/.
+
+clean-%: ## Clean up the images
+	docker rmi $$(docker images -q graze/php-alpine:$**)
 
 tag-5.6:
 	docker tag graze/php-alpine:5.6 graze/php-alpine:5
