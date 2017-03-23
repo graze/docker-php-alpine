@@ -19,7 +19,6 @@ script:
 - make test-${VER}
 deploy:
 - provider: script
-  script: echo "$DOCKER_USERNAME"; docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-    echo "pretending to push"
+  script: docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" && make deploy-${VER}
   on:
-    branch: '7.1'
+    branch: 'master'

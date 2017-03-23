@@ -21,8 +21,7 @@ test: test-5.6 test-7.0 test-7.1
 tag: tag-5.6 tag-7.0 tag-7.1
 push: push-5.6 push-7.0 push-7.1
 clean: clean-5.6 clean-7.0 clean-7.1
-
-deploy: build-quick tag push
+deploy: deploy-5.6 deploy-7.0 deploy-7.1
 
 build-%: cache ?=--pull --no-cache
 build-%: ## build a generic image
@@ -31,6 +30,9 @@ build-%: ## build a generic image
 
 clean-%: ## Clean up the images
 	docker rmi $$(docker images -q graze/php-alpine:$**) || echo "no images"
+
+deploy-%: ## Deploy a specific version
+	make build-$* tag-$* push-$* cache=""
 
 tag-5.6:
 	docker tag graze/php-alpine:5.6 graze/php-alpine:5
