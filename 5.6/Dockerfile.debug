@@ -7,6 +7,10 @@ LABEL license=MIT
 RUN apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
     ca-certificates \
     openssh-client \
+    yaml \
+    pcre \
+    libmemcached-libs \
+    zlib \
     php5 \
     php5-bcmath \
     php5-ctype \
