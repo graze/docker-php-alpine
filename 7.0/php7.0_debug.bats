@@ -21,7 +21,6 @@ readonly container="graze/php-alpine:7.0-test"
   [[ "${output}" == *bcmath* ]]
   [[ "${output}" == *curl* ]]
   [[ "${output}" == *dom* ]]
-  [[ "${output}" == *gd* ]]
   [[ "${output}" == *iconv* ]]
   [[ "${output}" == *intl* ]]
   [[ "${output}" == *json* ]]
