@@ -39,7 +39,7 @@ readonly container="graze/php-alpine:5.6-test"
   [[ "${output}" == *sockets* ]]
   [[ "${output}" == *xdebug* ]]
   [[ "${output}" == *xml* ]]
-  [[ "${output}" == *xml_reader* ]]
+  [[ "${output}" == *xmlreader* ]]
   [[ "${output}" == *yaml* ]]
   [[ "${output}" == *zip* ]]
   [[ "${output}" == *zlib* ]]
