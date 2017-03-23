@@ -52,6 +52,7 @@ RUN set -xe \
     && echo "extension=memcached.so" > /etc/php7/conf.d/01_memcached.ini \
     && echo "extension=apcu.so" > /etc/php7/conf.d/01_apcu.ini \
     && rm -rf /usr/share/php7 \
+    && rm -rf /tmp/* \
     && apk del .phpize-deps
 
 WORKDIR /srv

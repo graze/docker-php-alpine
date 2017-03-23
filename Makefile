@@ -30,7 +30,7 @@ build-%: ## build a generic image
 	docker build ${cache} -t graze/php-alpine:$*-test -f $*/Dockerfile.debug $*/.
 
 clean-%: ## Clean up the images
-	docker rmi $$(docker images -q graze/php-alpine:$**)
+	docker rmi $$(docker images -q graze/php-alpine:$**) || echo "no images"
 
 tag-5.6:
 	docker tag graze/php-alpine:5.6 graze/php-alpine:5

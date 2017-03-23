@@ -45,6 +45,7 @@ RUN set -xe \
     && pecl install yaml \
     && echo "extension=yaml.so" > /etc/php5/conf.d/yaml.ini \
     && rm -rf /usr/share/php7 \
+    && rm -rf /tmp/* \
     && apk del .phpize-deps
 
 COPY php/php.ini /etc/php5/

@@ -16,7 +16,6 @@ env:
 script:
   - make build-${VER}
   - make test-${VER}
-  - make clean-${VER}
 
 deploy:
 - provider: script
