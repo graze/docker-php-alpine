@@ -8,9 +8,6 @@ RUN apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/t
     ca-certificates \
     openssh-client \
     yaml \
-    pcre \
-    libmemcached-libs \
-    zlib \
     php5 \
     php5-bcmath \
     php5-ctype \
@@ -48,6 +45,7 @@ RUN set -xe \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
     && pecl install yaml \
     && echo "extension=yaml.so" > /etc/php5/conf.d/yaml.ini \
+    && echo "zend_extension=xdebug.so" >> /etc/php5/conf.d/xdebug.ini \
     && rm -rf /usr/share/php7 \
     && rm -rf /tmp/* \
     && apk del .phpize-deps
