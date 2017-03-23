@@ -35,7 +35,7 @@ readonly container="graze/php-alpine:7.0-test"
   [[ "${output}" == *pdo* ]]
   [[ "${output}" == *pdo_mysql* ]]
   [[ "${output}" == *pdo_pgsql* ]]
-  [[ "${output}" == *pdo_sqllite* ]]
+  [[ "${output}" == *pdo_sqlite* ]]
   [[ "${output}" == *pgsql* ]]
   [[ "${output}" == *soap* ]]
   [[ "${output}" == *sockets* ]]
