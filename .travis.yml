@@ -1,0 +1,32 @@
+sudo: required
+
+language: generic
+
+services:
+  - docker
+
+before_install:
+  - sudo add-apt-repository ppa:duggan/bats --yes
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq bats jq
+
+env:
+  matrix:
+    - VER=5.6
+    - VER=7.0
+    - VER=7.1
+  global:
+    # DOCKER_USERNAME
+    - secure: H39BhrfCzbxpks6fTP/qUh9yuvF3KgcipMMZHakT0sXiHeJRzv6OKgCtE+zV12Pc0AetIIpaHeTGS/mU23Cc5ua3YSkbC6El4EBJ7+bADp6tog8+8yiA2KgV79ngL8zQebAMHiBD9rhtGfsVpTIKi0OgVm1ID4qnc2dIITXtSBvtP5L2FvMU5+yQ8Tu4SJEsTLbP/djJTrqDXt2HgX3aGOFfUSBdeemBswBhT5HNEDJqOg4cED5uVB5EIi/HHIVytkt2VT3TIoNcxalKsC4C7zvr4eyWRPguHaGh2sBap5aMOe+azFL1sSz4Z6ChJO6vrsfGRVbG0tnBlDTosxEBuJDXQYOre7zneT5ddCdR5t4vpDK6AXLMPIEpJFz2pfn93P6q34IbFYqPiODeRA7p99Fg7c4b+jbVjBqMkCK3SHrVeFAhbYxKibLSPCStKfBGvzyFhs5Lw+xfR7FsP2s33vydr1elX+54v4rgZ8H0bN1ZxlVVGF8Q5Kd62JpQnxcvrqFYzaGOOKuB0yQhrFnd61h4OLD0BwV8SNxzejPqsZG+YIn4iE0Hf7C4IEQR7iWyNKOTGQG1JJDUjlP0H1zPH4CA5eQrQllx0yGuzyueVKjlQgGOk+yD3qKpCxLMcFTfyIIXVonEGyNYKJWFCmQe/DanqOQLMCNY2MdbwG5Miw0=
+    # DOCKER_PASSWORD
+    - secure: RtsS26l79vRppFqB2od7iMeRd9kdpUOT3ruGHGN8lgVy+I+avjLEZ4Q76SzXlzbnG+WT6cFcO9goQsKco67uMfWXHlIyrr32Sz4WhaYmyXhddKhP1N+CgBMJgYCWz/bJC8YKzbViQd2xBYBwydkvvajxiikLxaoHWR0LK6RT36uZ5oTZ/04JtWhc6v6YYyDqFeyc/J53Abu+F18TOEjMRqCs7OmCS3g15ZVpz7sXqOj1GM0pnoXLOWUlz326G84vGWOV8UMLCcuhR6g8tE6Mmbix4GkBva7WLkC5RlVhT1vwh4G/ebiVKOc1tQIdg1AwK+SqP/MKBlop3UY4OH99+2gDDvtAJx+I5+zHxoyxydPSQDbCZgXfwgHYoQ9NKNy/DHMNLyzW2JmkA0txJPJhQBw94sYyhghB0uAcUmB3+2YlJ+4YP/ZrBiboDhtaXfKAPvlBFc7i8nBAp7cJQPwL1H02HkJi4cZPlRK3BVFtCITacr0foUo+8zOVh8JMbFAZlAmgkxsTXXAUuOGoY9qCl4rBd6Xi3AvM8revm2ishDpD9ihRWOJaz/ahPS6HXMZXUejPZSubMpmmjrXrL6eJzgjLn6Zd4bEkZ/PDjDlAwCiZ0lpfjIDWZw/E9GKXrf6RpX0dOUb0cxaIuBrbQgDW6CpjJCmvaQP1vX5tM0kvhcs=
+
+script:
+  - make build-${VER}
+  - make test-${VER}
+
+deploy:
+  - provider: script
+    script: docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" && make deploy-${VER}
+    on:
+      branch: 'master'
