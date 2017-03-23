@@ -5,19 +5,20 @@ CHECK := $(foreach executable,$(EXECUTABLES),\
 	$(if $(shell which $(executable)),"",$(error "No executable found for $(executable).")))
 NOW ?= $(shell date -u +%Y%m%d-%H%M)
 
-.PHONY: build build-quick build-5.6 build-7.0 build-7.1
+.PHONY: build build-quick
 .PHONY: tag tag-5.6 tag-7.0 tag-7.1
 .PHONY: test test-5.6 test-7.0 test-7.1
 .PHONY: push push-5.6 push-7.0 push-7.1
 .PHONY: deploy
 
 .DEFAULT: build
-build: build-5.6 build-5.6-debug build-7.0 build-7.0-debug build-7.1 build-7.1-debug
+build: build-5.6 build-7.0 build-7.1
 build-quick:
 	make build cache=""
 
 test: test-5.6 test-7.0 test-7.1
-push: push-5.6 push-5.6-debug push-7.0 push-7.0-debug push-7.1 push-7.1-debug
+tag: tag-5.6 tag-7.0 tag-7.1
+push: push-5.6 push-7.0 push-7.1
 
 deploy: build-quick tag push
 
@@ -63,16 +64,16 @@ push-7.0:
 	docker push graze/php-alpine:7.0-test-${NOW}
 
 tag-7.1: ## Tag the 7.1 images
-	docker graze/php-alpine:7.1 graze/php-alpine:latest
-	docker graze/php-alpine:7.1 graze/php-alpine:7
-	docker graze/php-alpine:7.1 graze/php-alpine:${NOW}
-	docker graze/php-alpine:7.1 graze/php-alpine:7.1-{NOW}
-	docker graze/php-alpine:7.1 graze/php-alpine:7-${NOW}
-	docker graze/php-alpine:7.1-test graze/php-alpine:7-test
-	docker graze/php-alpine:7.1-test graze/php-alpine:test
-	docker graze/php-alpine:7.1-test graze/php-alpine:7.1-test-${NOW}
-	docker graze/php-alpine:7.1-test graze/php-alpine:7-test-${NOW}
-	docker graze/php-alpine:7.1-test graze/php-alpine:test-${NOW}
+	docker tag graze/php-alpine:7.1 graze/php-alpine:latest
+	docker tag graze/php-alpine:7.1 graze/php-alpine:7
+	docker tag graze/php-alpine:7.1 graze/php-alpine:${NOW}
+	docker tag graze/php-alpine:7.1 graze/php-alpine:7.1-${NOW}
+	docker tag graze/php-alpine:7.1 graze/php-alpine:7-${NOW}
+	docker tag graze/php-alpine:7.1-test graze/php-alpine:7-test
+	docker tag graze/php-alpine:7.1-test graze/php-alpine:test
+	docker tag graze/php-alpine:7.1-test graze/php-alpine:7.1-test-${NOW}
+	docker tag graze/php-alpine:7.1-test graze/php-alpine:7-test-${NOW}
+	docker tag graze/php-alpine:7.1-test graze/php-alpine:test-${NOW}
 
 test-7.1:
 	./7.1/php7.1.bats
