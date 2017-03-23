@@ -49,7 +49,7 @@ readonly container="graze/php-alpine:7.0-test"
   run docker run ${container} which phpdbg7
   echo 'status:' $status
   echo 'output:' $output
-  [ $status" -eq 0 ]
+  [ "$status" -eq 0 ]
   [[ "${output}" == *"phpdbg7"* ]]
 }
 
