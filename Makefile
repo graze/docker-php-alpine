@@ -5,6 +5,9 @@ CHECK := $(foreach executable,$(EXECUTABLES),\
 	$(if $(shell which $(executable)),"",$(error "No executable found for $(executable).")))
 NOW ?= $(shell date -u +%Y%m%d-%H%M)
 
+build_args := --build-arg BUILD_DATE=$(shell date -u +"%Y-%m-%dT%H:%M:%SZ") \
+              --build-arg VCS_REF=$(shell git rev-parse --short HEAD)
+
 .PHONY: build build-quick
 .PHONY: tag tag-5.6 tag-7.0 tag-7.1
 .PHONY: test test-5.6 test-7.0 test-7.1
@@ -25,14 +28,14 @@ deploy: deploy-5.6 deploy-7.0 deploy-7.1
 
 build-%: cache ?=--pull --no-cache
 build-%: ## build a generic image
-	docker build ${cache} -t graze/php-alpine:$* $*/.
-	docker build ${cache} -t graze/php-alpine:$*-test -f $*/Dockerfile.debug $*/.
+	docker build $(build_args) ${cache} -t graze/php-alpine:$* $*/.
+	docker build $(build_args) ${cache} -t graze/php-alpine:$*-test -f $*/Dockerfile.debug $*/.
 
 clean-%: ## Clean up the images
 	docker rmi $$(docker images -q graze/php-alpine:$**) || echo "no images"
 
 deploy-%: ## Deploy a specific version
-	make tag-$* push-$* cache=""
+	make tag-$* push-$*
 
 tag-5.6:
 	docker tag graze/php-alpine:5.6 graze/php-alpine:5

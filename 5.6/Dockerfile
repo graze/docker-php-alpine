@@ -1,8 +1,12 @@
 FROM alpine:3.5
 
-MAINTAINER "Harry Bragg <harry.bragg@graze.com>"
-
-LABEL license=MIT
+LABEL maintainer="developers@graze.com" \
+    license="MIT" \
+    org.label-schema.schema-version="1.0" \
+    org.label-schema.vendor="graze" \
+    org.label-schema.name="php-alpine" \
+    org.label-schema.description="small php image based on alpine" \
+    org.label-schema.vcs-url="https://github.com/graze/docker-php-alpine"
 
 RUN apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
     ca-certificates \
@@ -51,3 +55,9 @@ RUN set -xe \
 COPY php/php.ini /etc/php5/
 
 WORKDIR /srv
+
+ARG BUILD_DATE
+ARG VCS_REF
+
+LABEL org.label-schema.vcs-ref=$VCS_REF \
+    org.label-schema.build-date=$BUILD_DATE
