@@ -10,10 +10,6 @@ LABEL maintainer="developers@graze.com" \
 
 RUN apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/community" \
     ca-certificates \
-    yaml \
-    pcre \
-    libmemcached-libs \
-    zlib \
     openssh-client \
     yaml \
     pcre \

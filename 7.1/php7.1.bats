@@ -125,4 +125,3 @@ readonly container="graze/php-alpine:7.1"
   [ "$status" -eq 0 ]
   [ "$output" = "" ]
 }
-
