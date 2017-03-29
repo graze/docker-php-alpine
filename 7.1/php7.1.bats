@@ -12,6 +12,70 @@ readonly container="graze/php-alpine:7.1"
   [[ "$version" == "7.1" ]]
 }
 
+@test "the image has a MIT license" {
+  run bash -c "docker inspect ${container} | jq -r '.[].Config.Labels.license'"
+  echo 'status:' $status
+  echo 'output:' $output
+  [ "$status" -eq 0 ]
+  [ "$output" = "MIT" ]
+}
+
+@test "the image has a maintainer" {
+  run bash -c "docker inspect ${container} | jq -r '.[].Config.Labels.maintainer'"
+  echo 'status:' $status
+  echo 'output:' $output
+  [ "$status" -eq 0 ]
+  [ "$output" = "developers@graze.com" ]
+}
+
+@test "the image uses label-schema.org" {
+  run bash -c "docker inspect ${container} | jq -r '.[].Config.Labels.\"org.label-schema.schema-version\"'"
+  echo 'status:' $status
+  echo 'output:' $output
+  [ "$status" -eq 0 ]
+  [ "$output" = "1.0" ]
+}
+
+@test "the image has a vcs-url label" {
+  run bash -c "docker inspect ${container} | jq -r '.[].Config.Labels.\"org.label-schema.vcs-url\"'"
+  echo 'status:' $status
+  echo 'output:' $output
+  [ "$status" -eq 0 ]
+  [ "$output" = "https://github.com/graze/docker-php-alpine" ]
+}
+
+@test "the image has a vcs-ref label set to the current head commit in github" {
+  run bash -c "docker inspect ${container} | jq -r '.[].Config.Labels.\"org.label-schema.vcs-ref\"'"
+  echo 'status:' $status
+  echo 'output:' $output
+  [ "$status" -eq 0 ]
+  [ "$output" = `git rev-parse --short HEAD` ]
+}
+
+@test "the image has a build-date label" {
+  run bash -c "docker inspect ${container} | jq -r '.[].Config.Labels.\"org.label-schema.build-date\"'"
+  echo 'status:' $status
+  echo 'output:' $output
+  [ "$status" -eq 0 ]
+  [ "$output" != "null" ]
+}
+
+@test "the image has a vendor label" {
+  run bash -c "docker inspect ${container} | jq -r '.[].Config.Labels.\"org.label-schema.vendor\"'"
+  echo 'status:' $status
+  echo 'output:' $output
+  [ "$status" -eq 0 ]
+  [ "$output" = "graze" ]
+}
+
+@test "the image has a name label" {
+  run bash -c "docker inspect ${container} | jq -r '.[].Config.Labels.\"org.label-schema.name\"'"
+  echo 'status:' $status
+  echo 'output:' $output
+  [ "$status" -eq 0 ]
+  [ "$output" = "php-alpine" ]
+}
+
 @test "the image has the correct php modules installed" {
   run docker run --rm ${container} php -m
   echo 'status:' $status
@@ -61,4 +125,3 @@ readonly container="graze/php-alpine:7.1"
   [ "$status" -eq 0 ]
   [ "$output" = "" ]
 }
-

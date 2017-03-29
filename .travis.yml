@@ -29,4 +29,7 @@ deploy:
   - provider: script
     script: docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" && make deploy-${VER}
     on:
-      branch: 'master'
+      branch: master
+
+matrix:
+  fast_finish: true
