@@ -35,7 +35,7 @@ clean-%: ## Clean up the images
 	docker rmi $$(docker images -q graze/php-alpine:$**) || echo "no images"
 
 deploy-%: ## Deploy a specific version
-	make tag-$* push-$*
+	make tag-$* push-$* NOW=${NOW}
 
 tag-5.6:
 	docker tag graze/php-alpine:5.6 graze/php-alpine:5
