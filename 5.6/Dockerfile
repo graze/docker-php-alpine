@@ -11,6 +11,7 @@ LABEL maintainer="developers@graze.com" \
 RUN apk add --no-cache \
     ca-certificates \
     openssh-client \
+    libmemcached-libs \
     yaml \
     php5 \
     php5-bcmath \
