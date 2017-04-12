@@ -8,9 +8,10 @@ LABEL maintainer="developers@graze.com" \
     org.label-schema.description="small php image based on alpine" \
     org.label-schema.vcs-url="https://github.com/graze/docker-php-alpine"
 
-RUN apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
+RUN apk add --no-cache \
     ca-certificates \
     openssh-client \
+    libmemcached-libs \
     yaml \
     php5 \
     php5-bcmath \
@@ -23,7 +24,6 @@ RUN apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/t
     php5-openssl \
     php5-opcache \
     php5-mcrypt \
-    php5-memcached \
     php5-mysqli \
     php5-pgsql \
     php5-pdo_mysql \
@@ -39,19 +39,20 @@ RUN apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/t
     php5-zlib
 
 # install and remove building packages
-ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php5-dev php5-pear yaml-dev
+ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php5-dev php5-pear \
+    yaml-dev zlib-dev libmemcached-dev cyrus-sasl-dev
 
 RUN set -xe \
-    && apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
+    && apk add --no-cache \
         --virtual .phpize-deps \
         $PHPIZE_DEPS \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
-    && pecl install yaml \
+    && pecl install yaml memcached-2.2.0 \
     && echo "extension=yaml.so" > /etc/php5/conf.d/yaml.ini \
-    && rm -rf /usr/share/php7 \
+    && echo "extension=memcached.so" > /etc/php5/conf.d/memcached.ini \
+    && rm -rf /usr/share/php \
     && rm -rf /tmp/* \
     && apk del .phpize-deps
-
 COPY php/php.ini /etc/php5/
 
 WORKDIR /srv
