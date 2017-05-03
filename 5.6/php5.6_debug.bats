@@ -101,6 +101,7 @@ readonly container="graze/php-alpine:5.6-test"
   [[ "${output}" == *pgsql* ]]
   [[ "${output}" == *soap* ]]
   [[ "${output}" == *sockets* ]]
+  [[ "${output}" == *tokenizer* ]]
   [[ "${output}" == *xdebug* ]]
   [[ "${output}" == *xml* ]]
   [[ "${output}" == *xmlreader* ]]
