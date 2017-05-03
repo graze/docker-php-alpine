@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM alpine:3.5
 
 LABEL maintainer="developers@graze.com" \
     license="MIT" \
@@ -8,7 +8,7 @@ LABEL maintainer="developers@graze.com" \
     org.label-schema.description="small php image based on alpine" \
     org.label-schema.vcs-url="https://github.com/graze/docker-php-alpine"
 
-RUN apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/community" \
+RUN apk add --no-cache \
     ca-certificates \
     openssh-client \
     yaml \
@@ -48,7 +48,7 @@ ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php7-dev php7-p
         yaml-dev pcre-dev zlib-dev libmemcached-dev cyrus-sasl-dev
 
 RUN set -xe \
-    && apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/community" \
+    && apk add --no-cache \
         --virtual .phpize-deps \
         $PHPIZE_DEPS \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \

@@ -8,7 +8,7 @@ LABEL maintainer="developers@graze.com" \
     org.label-schema.description="small php image based on alpine" \
     org.label-schema.vcs-url="https://github.com/graze/docker-php-alpine"
 
-RUN apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
+RUN apk add --no-cache \
     ca-certificates \
     openssh-client \
     libmemcached-libs \
