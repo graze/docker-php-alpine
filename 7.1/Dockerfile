@@ -44,6 +44,7 @@ RUN apk add --no-cache \
     php7-tokenizer \
     php7-xml \
     php7-xmlreader \
+    php7-xmlwriter \
     php7-zip \
     php7-zlib
 
