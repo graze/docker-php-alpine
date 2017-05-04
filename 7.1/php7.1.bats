@@ -117,6 +117,7 @@ readonly container="graze/php-alpine:7.1"
   [[ "${output}" == *"sockets"* ]]
   [[ "${output}" == *"SPL"* ]]
   [[ "${output}" == *"standard"* ]]
+  [[ "${output}" == *"tokenizer"* ]]
   [[ "${output}" == *"xml"* ]]
   [[ "${output}" == *"xmlreader"* ]]
   [[ "${output}" == *"xmlwriter"* ]]
