@@ -15,15 +15,18 @@ RUN apk add --no-cache \
     musl \
     yaml \
     php7 \
+    php7-apcu \
     php7-bcmath \
     php7-ctype \
     php7-curl \
     php7-dom \
+    php7-fileinfo \
     php7-iconv \
     php7-intl \
     php7-json \
     php7-openssl \
     php7-opcache \
+    php7-memcached \
     php7-mbstring \
     php7-mcrypt \
     php7-mysqlnd \
@@ -42,22 +45,21 @@ RUN apk add --no-cache \
     php7-tokenizer \
     php7-xml \
     php7-xmlreader \
+    php7-xmlwriter \
     php7-zip \
     php7-zlib
 
 # install and remove building packages
 ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php7-dev php7-pear \
-    pcre-dev zlib-dev libmemcached-dev cyrus-sasl-dev yaml-dev
+    yaml-dev
 
 RUN set -xe \
     && apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
         --virtual .phpize-deps \
         $PHPIZE_DEPS \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
-    && pecl install yaml-2.0.0 memcached apcu \
+    && pecl install yaml-2.0.0 \
     && echo "extension=yaml.so" > /etc/php7/conf.d/01_yaml.ini \
-    && echo "extension=memcached.so" > /etc/php7/conf.d/01_memcached.ini \
-    && echo "extension=apcu.so" > /etc/php7/conf.d/01_apcu.ini \
     && rm -rf /usr/share/php7 \
     && rm -rf /tmp/* \
     && apk del .phpize-deps
