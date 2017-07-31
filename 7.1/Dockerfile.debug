@@ -58,7 +58,7 @@ RUN set -xe \
         --virtual .phpize-deps \
         $PHPIZE_DEPS \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
-    && pecl install yaml-2.0.0 \
+    && pecl install yaml \
     && echo "extension=yaml.so" > /etc/php7/conf.d/01_yaml.ini \
     && rm -rf /usr/share/php7 \
     && rm -rf /tmp/* \
