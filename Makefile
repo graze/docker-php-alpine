@@ -1,16 +1,17 @@
 SHELL = /bin/bash
 
-EXECUTABLES = docker bats jq
-CHECK := $(foreach executable,$(EXECUTABLES),\
-	$(if $(shell which $(executable)),"",$(error "No executable found for $(executable).")))
 NOW ?= $(shell date -u +%Y%m%d-%H%M)
+
+docker_bats := docker run --rm \
+		-v $$(pwd):/app -v /var/run/docker.sock:/var/run/docker.sock \
+		graze/bats
 
 build_args := --build-arg BUILD_DATE=$(shell date -u +"%Y-%m-%dT%H:%M:%SZ") \
               --build-arg VCS_REF=$(shell git rev-parse --short HEAD)
 
 .PHONY: build build-quick
 .PHONY: tag tag-5.6 tag-7.0 tag-7.1
-.PHONY: test test-5.6 test-7.0 test-7.1
+.PHONY: test
 .PHONY: push push-5.6 push-7.0 push-7.1
 .PHONY: clean
 .PHONY: deploy
@@ -37,6 +38,10 @@ clean-%: ## Clean up the images
 deploy-%: ## Deploy a specific version
 	make tag-$* push-$* NOW=${NOW}
 
+test-%: ## Test a version
+	${docker_bats} ./$*/php$*.bats
+	${docker_bats} ./$*/php$*_debug.bats
+
 tag-5.6:
 	docker tag graze/php-alpine:5.6 graze/php-alpine:5
 	docker tag graze/php-alpine:5.6 graze/php-alpine:5-${NOW}
@@ -44,10 +49,6 @@ tag-5.6:
 	docker tag graze/php-alpine:5.6-test graze/php-alpine:5-test
 	docker tag graze/php-alpine:5.6-test graze/php-alpine:5-test-${NOW}
 	docker tag graze/php-alpine:5.6-test graze/php-alpine:5.6-test-${NOW}
-
-test-5.6:
-	./5.6/php5.6.bats
-	./5.6/php5.6_debug.bats
 
 push-5.6:
 	docker push graze/php-alpine:5.6
@@ -62,10 +63,6 @@ push-5.6:
 tag-7.0: ## Tag the 7.0 images
 	docker tag graze/php-alpine:7.0 graze/php-alpine:7.0-${NOW}
 	docker tag graze/php-alpine:7.0-test graze/php-alpine:7.0-test-${NOW}
-
-test-7.0:
-	./7.0/php7.0.bats
-	./7.0/php7.0_debug.bats
 
 push-7.0:
 	docker push graze/php-alpine:7.0
@@ -84,10 +81,6 @@ tag-7.1: ## Tag the 7.1 images
 	docker tag graze/php-alpine:7.1-test graze/php-alpine:7.1-test-${NOW}
 	docker tag graze/php-alpine:7.1-test graze/php-alpine:7-test-${NOW}
 	docker tag graze/php-alpine:7.1-test graze/php-alpine:test-${NOW}
-
-test-7.1:
-	./7.1/php7.1.bats
-	./7.1/php7.1_debug.bats
 
 push-7.1:
 	docker push graze/php-alpine:7.1
