@@ -52,6 +52,7 @@ RUN set -xe \
         --virtual .phpize-deps \
         $PHPIZE_DEPS \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
+    && pecl channel-update pecl.php.net \
     && pecl install yaml apcu memcached \
     && echo "extension=yaml.so" > /etc/php7/conf.d/01_yaml.ini \
     && echo "extension=apcu.so" > /etc/php7/conf.d/01_apcu.ini \
