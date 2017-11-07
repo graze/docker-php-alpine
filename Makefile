@@ -29,8 +29,8 @@ deploy: deploy-5.6 deploy-7.0 deploy-7.1
 
 build-%: cache ?=--pull --no-cache
 build-%: ## build a generic image
-	docker build $(build_args) ${cache} -t graze/php-alpine:$* $*/.
-	docker build $(build_args) ${cache} -t graze/php-alpine:$*-test -f $*/Dockerfile.debug $*/.
+	docker build ${build_args} ${cache} -t graze/php-alpine:$* $*/.
+	docker build ${build_args} ${cache} -t graze/php-alpine:$*-test -f $*/Dockerfile.debug $*/.
 
 clean-%: ## Clean up the images
 	docker rmi $$(docker images -q graze/php-alpine:$**) || echo "no images"

@@ -44,8 +44,8 @@ ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php5-dev php5-p
 
 RUN set -xe \
     && apk add --no-cache \
-        --virtual .phpize-deps \
-        $PHPIZE_DEPS \
+    --virtual .phpize-deps \
+    $PHPIZE_DEPS \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
     && pecl channel-update pecl.php.net \
     && pecl install yaml-1.3.1 memcached-2.2.0 \
