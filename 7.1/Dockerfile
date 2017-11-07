@@ -64,7 +64,7 @@ RUN set -xe \
     && rm -rf /tmp/* \
     && apk del .phpize-deps
 
-COPY php/conf.d/03_memlimit.ini /etc/php7/conf.d/03_memlimit.ini
+COPY php/conf.d/00_memlimit.ini /etc/php7/conf.d/00_memlimit.ini
 
 WORKDIR /srv
 
