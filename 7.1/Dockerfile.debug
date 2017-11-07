@@ -55,8 +55,8 @@ ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php7-dev php7-p
 
 RUN set -xe \
     && apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
-        --virtual .phpize-deps \
-        $PHPIZE_DEPS \
+    --virtual .phpize-deps \
+    $PHPIZE_DEPS \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
     && pecl channel-update pecl.php.net \
     && pecl install yaml \
@@ -64,6 +64,8 @@ RUN set -xe \
     && rm -rf /usr/share/php7 \
     && rm -rf /tmp/* \
     && apk del .phpize-deps
+
+COPY php/conf.d/03_memlimit.ini /etc/php7/conf.d/03_memlimit.ini
 
 WORKDIR /srv
 

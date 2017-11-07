@@ -151,3 +151,11 @@ readonly container="graze/php-alpine:7.1-test"
   [ "$status" -eq 0 ]
   [ "$output" = "" ]
 }
+
+@test "php should have a memory limit of 2048M" {
+  run bash -c "docker run --rm ${container} php -i | grep memory_limit"
+  echo "status: $status"
+  echo "output: $output"
+  [ "$status" -eq 0 ]
+  [ "$output" = "memory_limit => 2048M => 2048M" ]
+}
