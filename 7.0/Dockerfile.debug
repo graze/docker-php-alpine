@@ -42,7 +42,9 @@ RUN apk add --no-cache \
     php7-xml \
     php7-xmlreader \
     php7-zip \
-    php7-zlib
+    php7-zlib \
+    && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted \
+    gnu-libiconv
 
 # install and remove building packages
 ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php7-dev php7-pear \
