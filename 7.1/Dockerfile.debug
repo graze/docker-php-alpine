@@ -47,7 +47,9 @@ RUN apk add --no-cache \
     php7-xmlreader \
     php7-xmlwriter \
     php7-zip \
-    php7-zlib
+    php7-zlib \
+    && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted \
+    gnu-libiconv
 
 # install and remove building packages
 ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php7-dev php7-pear \
@@ -74,3 +76,6 @@ ARG VCS_REF
 
 LABEL org.label-schema.vcs-ref=$VCS_REF \
     org.label-schema.build-date=$BUILD_DATE
+
+# Fix for iconv: https://github.com/docker-library/php/issues/240
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php

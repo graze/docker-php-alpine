@@ -73,3 +73,6 @@ ARG VCS_REF
 
 LABEL org.label-schema.vcs-ref=$VCS_REF \
     org.label-schema.build-date=$BUILD_DATE
+
+# Fix for iconv: https://github.com/docker-library/php/issues/240
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
