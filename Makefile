@@ -19,7 +19,7 @@ build_args := --build-arg BUILD_DATE=$(shell date -u +"%Y-%m-%dT%H:%M:%SZ") \
 .DEFAULT: build
 build: build-5.6 build-7.0 build-7.1
 build-quick:
-	make build cache=""
+	make build cache="" pull=""
 
 tag: tag-5.6 tag-7.0 tag-7.1
 test: test-5.6 test-7.0 test-7.1
@@ -27,9 +27,10 @@ push: push-5.6 push-7.0 push-7.1
 clean: clean-5.6 clean-7.0 clean-7.1
 deploy: deploy-5.6 deploy-7.0 deploy-7.1
 
-build-%: cache ?=--pull --no-cache
+build-%: cache ?= --no-cache
+build-%: pull ?= --pull
 build-%: ## build a generic image
-	docker build ${build_args} ${cache} -t graze/php-alpine:$* $*/.
+	docker build ${build_args} ${cache} ${pull} -t graze/php-alpine:$* $*/.
 	docker build ${build_args} ${cache} -t graze/php-alpine:$*-test -f $*/Dockerfile.debug $*/.
 
 clean-%: ## Clean up the images

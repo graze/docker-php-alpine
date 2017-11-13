@@ -44,6 +44,8 @@ RUN apk add --no-cache \
 ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php5-dev php5-pear \
     yaml-dev zlib-dev libmemcached-dev cyrus-sasl-dev
 
+ENV PHP_INI_DIR /etc/php5
+
 RUN set -xe \
     && apk add --no-cache \
     --virtual .phpize-deps \
@@ -51,12 +53,12 @@ RUN set -xe \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
     && pecl channel-update pecl.php.net \
     && pecl install yaml-1.3.1 memcached-2.2.0 \
-    && echo "extension=yaml.so" > /etc/php5/conf.d/yaml.ini \
-    && echo "extension=memcached.so" > /etc/php5/conf.d/memcached.ini \
+    && echo "extension=yaml.so" > $PHP_INI_DIR/conf.d/yaml.ini \
+    && echo "extension=memcached.so" > $PHP_INI_DIR/conf.d/memcached.ini \
     && rm -rf /usr/share/php \
     && rm -rf /tmp/* \
     && apk del .phpize-deps
-COPY php/php.ini /etc/php5/
+COPY php/php.ini $PHP_INI_DIR/
 
 WORKDIR /srv
 
