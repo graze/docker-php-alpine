@@ -49,6 +49,8 @@ RUN apk add --no-cache \
 ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php7-dev php7-pear \
     yaml-dev pcre-dev zlib-dev libmemcached-dev cyrus-sasl-dev
 
+ENV PHP_INI_DIR /etc/php7
+
 RUN set -xe \
     && apk add --no-cache \
     --virtual .phpize-deps \
@@ -56,16 +58,16 @@ RUN set -xe \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
     && pecl channel-update pecl.php.net \
     && pecl install yaml apcu memcached \
-    && echo "extension=yaml.so" > /etc/php7/conf.d/01_yaml.ini \
-    && echo "extension=apcu.so" > /etc/php7/conf.d/01_apcu.ini \
-    && echo "extension=memcached.so" > /etc/php7/conf.d/20_memcached.ini \
+    && echo "extension=yaml.so" > $PHP_INI_DIR/conf.d/01_yaml.ini \
+    && echo "extension=apcu.so" > $PHP_INI_DIR/conf.d/01_apcu.ini \
+    && echo "extension=memcached.so" > $PHP_INI_DIR/conf.d/20_memcached.ini \
     && rm -rf /usr/share/php7 \
     && rm -rf /tmp/* \
     && apk del .phpize-deps
 
 RUN ln -s /usr/bin/php7 /usr/bin/php
 
-COPY php/php.ini /etc/php7/
+COPY php/php.ini $PHP_INI_DIR/
 
 WORKDIR /srv
 
