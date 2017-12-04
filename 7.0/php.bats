@@ -97,7 +97,6 @@ readonly container="graze/php-alpine:7.0"
   [[ "${output}" == *"json"* ]]
   [[ "${output}" == *"libxml"* ]]
   [[ "${output}" == *"mbstring"* ]]
-  [[ "${output}" == *"mcrypt"* ]]
   [[ "${output}" == *"memcached"* ]]
   [[ "${output}" == *"mysqli"* ]]
   [[ "${output}" == *"mysqlnd"* ]]

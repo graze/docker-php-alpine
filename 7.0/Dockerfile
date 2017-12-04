@@ -28,7 +28,6 @@ RUN apk add --no-cache \
     php7-openssl \
     php7-opcache \
     php7-mbstring \
-    php7-mcrypt \
     php7-mysqlnd \
     php7-mysqli \
     php7-pcntl \
