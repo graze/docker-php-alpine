@@ -8,7 +8,11 @@ LABEL maintainer="developers@graze.com" \
     org.label-schema.description="small php image based on alpine" \
     org.label-schema.vcs-url="https://github.com/graze/docker-php-alpine"
 
+# setup remote php packagages
+ADD https://php.codecasts.rocks/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
+
 RUN set -xe \
+    && echo "https://php.codecasts.rocks/v3.7/php-7.2" >> /etc/apk/repositories \
     && apk add --update --no-cache \
     ca-certificates \
     openssh-client \
@@ -21,7 +25,6 @@ RUN set -xe \
     php7-ctype \
     php7-curl \
     php7-dom \
-    php7-fileinfo \
     php7-iconv \
     php7-intl \
     php7-json \
@@ -29,7 +32,6 @@ RUN set -xe \
     php7-opcache \
     php7-mbstring \
     php7-memcached \
-    php7-mcrypt \
     php7-mysqlnd \
     php7-mysqli \
     php7-pgsql \
@@ -39,13 +41,11 @@ RUN set -xe \
     php7-phar \
     php7-posix \
     php7-session \
-    php7-simplexml \
     php7-soap \
     php7-sockets \
-    php7-tokenizer \
+    php7-sodium \
     php7-xml \
     php7-xmlreader \
-    php7-xmlwriter \
     php7-zip \
     php7-zlib \
     && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted \
@@ -56,6 +56,8 @@ ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php7-dev php7-p
     yaml-dev
 
 ENV PHP_INI_DIR /etc/php7
+
+RUN ln -s /usr/bin/php7 /usr/bin/php
 
 RUN set -xe \
     && apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
