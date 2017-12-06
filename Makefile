@@ -73,7 +73,6 @@ push-7.0: ## Push 7.0 images
 
 tag-7.1: ## Tag the 7.1 images
 	docker tag graze/php-alpine:7.1 graze/php-alpine:7.1-${NOW}
-	docker tag graze/php-alpine:7.1-test graze/php-alpine:7-test
 	docker tag graze/php-alpine:7.1-test graze/php-alpine:7.1-test-${NOW}
 
 push-7.1: ## Push 7.1 images
