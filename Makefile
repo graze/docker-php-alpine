@@ -83,27 +83,27 @@ push-7.1: ## Push 7.1 images
 	docker push graze/php-alpine:7.1-test-${NOW}
 
 tag-7.2: ## Tag the 7.2 images
-	docker tag graze/php-alpine:7.1 graze/php-alpine:latest
-	docker tag graze/php-alpine:7.1 graze/php-alpine:7
-	docker tag graze/php-alpine:7.1 graze/php-alpine:${NOW}
-	docker tag graze/php-alpine:7.1 graze/php-alpine:7.2-${NOW}
-	docker tag graze/php-alpine:7.1 graze/php-alpine:7-${NOW}
-	docker tag graze/php-alpine:7.1-test graze/php-alpine:7-test
-	docker tag graze/php-alpine:7.1-test graze/php-alpine:test
-	docker tag graze/php-alpine:7.1-test graze/php-alpine:7.2-test-${NOW}
-	docker tag graze/php-alpine:7.1-test graze/php-alpine:7-test-${NOW}
-	docker tag graze/php-alpine:7.1-test graze/php-alpine:test-${NOW}
+	docker tag graze/php-alpine:7.2 graze/php-alpine:latest
+	docker tag graze/php-alpine:7.2 graze/php-alpine:7
+	docker tag graze/php-alpine:7.2 graze/php-alpine:${NOW}
+	docker tag graze/php-alpine:7.2 graze/php-alpine:7.2-${NOW}
+	docker tag graze/php-alpine:7.2 graze/php-alpine:7-${NOW}
+	docker tag graze/php-alpine:7.2-test graze/php-alpine:7-test
+	docker tag graze/php-alpine:7.2-test graze/php-alpine:test
+	docker tag graze/php-alpine:7.2-test graze/php-alpine:7.2-test-${NOW}
+	docker tag graze/php-alpine:7.2-test graze/php-alpine:7-test-${NOW}
+	docker tag graze/php-alpine:7.2-test graze/php-alpine:test-${NOW}
 
 push-7.2: ## Push 7.2 images
-	docker push graze/php-alpine:7.1
+	docker push graze/php-alpine:7.2
 	docker push graze/php-alpine:7
 	docker push graze/php-alpine:latest
-	docker push graze/php-alpine:7.1-test
+	docker push graze/php-alpine:7.2-test
 	docker push graze/php-alpine:7-test
 	docker push graze/php-alpine:test
-	docker push graze/php-alpine:7.1-${NOW}
+	docker push graze/php-alpine:7.2-${NOW}
 	docker push graze/php-alpine:7-${NOW}
 	docker push graze/php-alpine:${NOW}
-	docker push graze/php-alpine:7.1-test-${NOW}
+	docker push graze/php-alpine:7.2-test-${NOW}
 	docker push graze/php-alpine:7-test-${NOW}
 	docker push graze/php-alpine:test-${NOW}
