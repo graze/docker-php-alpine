@@ -19,6 +19,7 @@ env:
 
 script:
   - make build-${VER}
+  - make tag-${VER}
   - make test-${VER}
 
 deploy:

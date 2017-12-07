@@ -40,8 +40,9 @@ deploy-%: ## Deploy a specific version
 	make tag-$* push-$* NOW=${NOW}
 
 test-%: ## Test a version
-	${docker_bats} ./$*/php$*.bats
-	${docker_bats} ./$*/php$*_debug.bats
+	${docker_bats} ./$*/php.bats
+	${docker_bats} ./$*/php_debug.bats
+	${docker_bats} ./$*/tags.bats
 
 tag-5.6: ## Tag the 5.6 images
 	docker tag graze/php-alpine:5.6 graze/php-alpine:5
