@@ -52,9 +52,10 @@ RUN set -xe \
     $PHPIZE_DEPS \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
     && pecl channel-update pecl.php.net \
-    && pecl install yaml-1.3.1 memcached-2.2.0 \
+    && pecl install yaml-1.3.1 memcached-2.2.0 ev \
     && echo "extension=yaml.so" > $PHP_INI_DIR/conf.d/yaml.ini \
     && echo "extension=memcached.so" > $PHP_INI_DIR/conf.d/memcached.ini \
+    && echo "extension=ev.so" > $PHP_INI_DIR/conf.d/z-ev.ini \
     && rm -rf /usr/share/php \
     && rm -rf /tmp/* \
     && apk del .phpize-deps

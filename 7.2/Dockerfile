@@ -65,8 +65,9 @@ RUN set -xe \
     $PHPIZE_DEPS \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
     && pecl channel-update pecl.php.net \
-    && pecl install yaml \
+    && pecl install yaml ev \
     && echo "extension=yaml.so" > $PHP_INI_DIR/conf.d/01_yaml.ini \
+    && echo "extension=ev.so" > $PHP_INI_DIR/conf.d/01_ev.ini \
     && rm -rf /usr/share/php7 \
     && rm -rf /tmp/* \
     && apk del .phpize-deps

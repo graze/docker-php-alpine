@@ -88,6 +88,7 @@ readonly container="graze/php-alpine:7.0-test"
   [[ "${output}" == *"curl"* ]]
   [[ "${output}" == *"date"* ]]
   [[ "${output}" == *"dom"* ]]
+  [[ "${output}" == *"ev"* ]]
   [[ "${output}" == *"fileinfo"* ]]
   [[ "${output}" == *"filter"* ]]
   [[ "${output}" == *"hash"* ]]

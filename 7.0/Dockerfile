@@ -57,9 +57,10 @@ RUN set -xe \
     $PHPIZE_DEPS \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
     && pecl channel-update pecl.php.net \
-    && pecl install yaml apcu memcached \
+    && pecl install yaml apcu memcached ev \
     && echo "extension=yaml.so" > $PHP_INI_DIR/conf.d/01_yaml.ini \
     && echo "extension=apcu.so" > $PHP_INI_DIR/conf.d/01_apcu.ini \
+    && echo "extension=ev.so" > $PHP_INI_DIR/conf.d/01_ev.ini \
     && echo "extension=memcached.so" > $PHP_INI_DIR/conf.d/20_memcached.ini \
     && rm -rf /usr/share/php7 \
     && rm -rf /tmp/* \

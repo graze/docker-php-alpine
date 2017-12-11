@@ -22,6 +22,55 @@ Testing images are the same as the standard, but with xdebug (php5.6) or phpdbg 
 - `7.0-test` [7.0/Dockerfile.debug](https://github.com/graze/docker-php-alpine/blob/master/7.0/Dockerfile.debug)
 - `5.6-test`, `5-test` [5.6/Dockerfile.debug](https://github.com/graze/docker-php-alpine/blob/master/5.6/Dockerfile.debug)
 
+## Build in PHP Modules
+
+- apcu - (PHP 7.0 +)
+- bcmath
+- Core
+- ctype
+- curl
+- date
+- dom
+- ev
+- fileinfo
+- filter
+- hash
+- iconv
+- intl
+- json
+- libxml
+- mbstring
+- memcached
+- mysqli
+- mysqlnd
+- openssl
+- pcre
+- PDO
+- pdo_mysql
+- pdo_pgsql
+- pdo_sqlite
+- pgsql
+- Phar
+- posix
+- readline
+- Reflection
+- session
+- SimpleXML
+- soap
+- sockets
+- sodium - (PHP 7.2 +)
+- SPL
+- standard
+- tokenizer
+- xdebug - (PHP 5.6 only)
+- xml
+- xmlreader
+- xmlwriter
+- yaml
+- Zend OPcache
+- zip
+- zlib
+
 ## Dev
 
     ~ $ make build-quick
