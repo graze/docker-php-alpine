@@ -12,6 +12,8 @@ RUN apk add --no-cache \
     ca-certificates \
     openssh-client \
     libmemcached-libs \
+    libevent \
+    libssl1.0 \
     yaml \
     php5 \
     php5-bcmath \
@@ -25,6 +27,7 @@ RUN apk add --no-cache \
     php5-opcache \
     php5-mcrypt \
     php5-mysqli \
+    php5-pcntl \
     php5-pgsql \
     php5-pdo_mysql \
     php5-pdo_pgsql \
@@ -42,7 +45,7 @@ RUN apk add --no-cache \
 
 # install and remove building packages
 ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php5-dev php5-pear \
-    yaml-dev zlib-dev libmemcached-dev cyrus-sasl-dev
+    yaml-dev zlib-dev libmemcached-dev cyrus-sasl-dev libevent-dev openssl-dev
 
 ENV PHP_INI_DIR /etc/php5
 
@@ -52,10 +55,10 @@ RUN set -xe \
     $PHPIZE_DEPS \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
     && pecl channel-update pecl.php.net \
-    && pecl install yaml-1.3.1 memcached-2.2.0 ev \
+    && pecl install yaml-1.3.1 memcached-2.2.0 event \
     && echo "extension=yaml.so" > $PHP_INI_DIR/conf.d/yaml.ini \
     && echo "extension=memcached.so" > $PHP_INI_DIR/conf.d/memcached.ini \
-    && echo "extension=ev.so" > $PHP_INI_DIR/conf.d/z-ev.ini \
+    && echo "extension=event.so" > $PHP_INI_DIR/conf.d/z-event.ini \
     && rm -rf /usr/share/php \
     && rm -rf /tmp/* \
     && apk del .phpize-deps
