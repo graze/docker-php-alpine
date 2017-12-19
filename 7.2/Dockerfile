@@ -17,6 +17,8 @@ RUN set -xe \
     ca-certificates \
     openssh-client \
     libmemcached-libs \
+    libevent \
+    libssl1.0 \
     musl \
     yaml \
     php7 \
@@ -34,6 +36,7 @@ RUN set -xe \
     php7-memcached \
     php7-mysqlnd \
     php7-mysqli \
+    php7-pcntl \
     php7-pgsql \
     php7-pdo_mysql \
     php7-pdo_pgsql \
@@ -53,7 +56,7 @@ RUN set -xe \
 
 # install and remove building packages
 ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php7-dev php7-pear \
-    yaml-dev
+    yaml-dev libevent-dev openssl-dev
 
 ENV PHP_INI_DIR /etc/php7
 
@@ -65,8 +68,9 @@ RUN set -xe \
     $PHPIZE_DEPS \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
     && pecl channel-update pecl.php.net \
-    && pecl install yaml \
+    && pecl install yaml event \
     && echo "extension=yaml.so" > $PHP_INI_DIR/conf.d/01_yaml.ini \
+    && echo "extension=event.so" > $PHP_INI_DIR/conf.d/01_event.ini \
     && rm -rf /usr/share/php7 \
     && rm -rf /tmp/* \
     && apk del .phpize-deps
