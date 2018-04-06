@@ -10,6 +10,7 @@ LABEL maintainer="developers@graze.com" \
 
 RUN apk add --no-cache \
     ca-certificates \
+    curl \
     openssh-client \
     libmemcached-libs \
     libevent \

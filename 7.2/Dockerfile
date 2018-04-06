@@ -16,6 +16,7 @@ RUN set -xe \
     && echo "@php https://php.codecasts.rocks/v3.7/php-7.2" >> /etc/apk/repositories \
     && apk add --update --no-cache \
     ca-certificates \
+    curl \
     openssh-client \
     libmemcached-libs \
     libevent \

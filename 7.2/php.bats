@@ -171,3 +171,9 @@ readonly container="graze/php-alpine:7.2"
   [ "$output" = "foobar" ]
   [[ "${output}" != *"PHP Notice"* ]]
 }
+
+@test "the image has curl installed" {
+  run docker run --rm --entrypoint=/bin/sh ${container} -c '[ -x /usr/bin/curl ]'
+  echo 'status:' $status
+  [ "$status" -eq 0 ]
+}
