@@ -13,6 +13,7 @@ ADD https://php.codecasts.rocks/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.
 
 RUN set -xe \
     && echo "https://php.codecasts.rocks/v3.7/php-7.2" >> /etc/apk/repositories \
+    && echo "@php https://php.codecasts.rocks/v3.7/php-7.2" >> /etc/apk/repositories \
     && apk add --update --no-cache \
     ca-certificates \
     openssh-client \
@@ -22,7 +23,7 @@ RUN set -xe \
     musl \
     yaml \
     php7 \
-    php7-apcu \
+    php7-apcu@php \
     php7-bcmath \
     php7-ctype \
     php7-curl \
