@@ -1,4 +1,4 @@
-FROM alpine:3.7
+FROM alpine:3.8
 
 LABEL maintainer="developers@graze.com" \
     license="MIT" \
@@ -9,11 +9,8 @@ LABEL maintainer="developers@graze.com" \
     org.label-schema.vcs-url="https://github.com/graze/docker-php-alpine"
 
 # setup remote php packagages
-ADD https://php.codecasts.rocks/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
 
 RUN set -xe \
-    && echo "https://php.codecasts.rocks/v3.7/php-7.2" >> /etc/apk/repositories \
-    && echo "@php https://php.codecasts.rocks/v3.7/php-7.2" >> /etc/apk/repositories \
     && apk add --update --no-cache \
     ca-certificates \
     curl \
@@ -24,11 +21,12 @@ RUN set -xe \
     musl \
     yaml \
     php7 \
-    php7-apcu@php \
+    php7-apcu \
     php7-bcmath \
     php7-ctype \
     php7-curl \
     php7-dom \
+    php7-fileinfo \
     php7-iconv \
     php7-intl \
     php7-json \
@@ -46,11 +44,15 @@ RUN set -xe \
     php7-phar \
     php7-posix \
     php7-session \
+    php7-simplexml \
     php7-soap \
     php7-sockets \
     php7-sodium \
+    php7-tokenizer \
     php7-xml \
     php7-xmlreader \
+    php7-xmlwriter \
+    php7-yaml \
     php7-zip \
     php7-zlib \
     && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted \
@@ -58,11 +60,9 @@ RUN set -xe \
 
 # install and remove building packages
 ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php7-dev php7-pear \
-    yaml-dev libevent-dev openssl-dev
+    libevent-dev openssl-dev
 
 ENV PHP_INI_DIR /etc/php7
-
-RUN ln -s /usr/bin/php7 /usr/bin/php
 
 RUN set -xe \
     && apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
@@ -70,8 +70,7 @@ RUN set -xe \
     $PHPIZE_DEPS \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
     && pecl channel-update pecl.php.net \
-    && pecl install yaml event \
-    && echo "extension=yaml.so" > $PHP_INI_DIR/conf.d/01_yaml.ini \
+    && pecl install event \
     && echo "extension=event.so" > $PHP_INI_DIR/conf.d/01_event.ini \
     && rm -rf /usr/share/php7 \
     && rm -rf /tmp/* \
