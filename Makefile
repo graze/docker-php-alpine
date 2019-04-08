@@ -4,13 +4,8 @@ docker_bats := docker run --rm \
 		-v $$(pwd):/app -v /var/run/docker.sock:/var/run/docker.sock \
 		graze/bats
 
-ifeq (SQUASH,true)
-	squash_args := --squash
-endif
-
 build_args := --build-arg BUILD_DATE=$(shell date -u +"%Y-%m-%dT%H:%M:%SZ") \
-              --build-arg VCS_REF=$(shell git rev-parse --short HEAD) \
-			  ${squash_args}
+              --build-arg VCS_REF=$(shell git rev-parse --short HEAD)
 
 latest_5 := 5.6
 latest_7 := 7.2
