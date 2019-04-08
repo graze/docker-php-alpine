@@ -8,8 +8,6 @@ LABEL maintainer="developers@graze.com" \
     org.label-schema.description="small php image based on alpine" \
     org.label-schema.vcs-url="https://github.com/graze/docker-php-alpine"
 
-# setup remote php packagages
-
 RUN set -xe \
     && apk add --update --no-cache \
     ca-certificates \
@@ -17,7 +15,7 @@ RUN set -xe \
     openssh-client \
     libmemcached-libs \
     libevent \
-    libssl1.1 \
+    libssl1.0 \
     musl \
     yaml \
     php7 \
