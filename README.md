@@ -8,7 +8,8 @@ Public image for php in alpine with a set of common extensions
 
 ## Images
 
-- `7.2`, `7`, `latest` [7.2/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.2/Dockerfile)
+- `7.3`, `7`, `latest` [7.3/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.3/Dockerfile)
+- `7.2` [7.2/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.2/Dockerfile)
 - `7.1` [7.1/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.1/Dockerfile)
 - `7.0` [7.0/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.0/Dockerfile)
 - `5.6`, `5` [5.6/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/5.6/Dockerfile)
@@ -42,7 +43,8 @@ standard, [tokenizer](http://php.net/manual/en/book.tokenizer.php), [xml](http:/
 
 Testing images are the same as the standard, but with xdebug (php5.6) or phpdbg (php7.*)
 
-- `7.2-test`, `7-test`, `test` [7.2/Dockerfile.debug](https://github.com/graze/docker-php-alpine/blob/master/7.2/Dockerfile.debug)
+- `7.3-test`, `7-test`, `test` [7.3/Dockerfile.debug](https://github.com/graze/docker-php-alpine/blob/master/7.3/Dockerfile.debug)
+- `7.2-test` [7.2/Dockerfile.debug](https://github.com/graze/docker-php-alpine/blob/master/7.2/Dockerfile.debug)
 - `7.1-test` [7.1/Dockerfile.debug](https://github.com/graze/docker-php-alpine/blob/master/7.1/Dockerfile.debug)
 - `7.0-test` [7.0/Dockerfile.debug](https://github.com/graze/docker-php-alpine/blob/master/7.0/Dockerfile.debug)
 - `5.6-test`, `5-test` [5.6/Dockerfile.debug](https://github.com/graze/docker-php-alpine/blob/master/5.6/Dockerfile.debug)
