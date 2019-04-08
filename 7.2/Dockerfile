@@ -17,7 +17,7 @@ RUN set -xe \
     openssh-client \
     libmemcached-libs \
     libevent \
-    libssl1.0 \
+    libssl1.1 \
     musl \
     yaml \
     php7 \
@@ -55,7 +55,7 @@ RUN set -xe \
     php7-yaml \
     php7-zip \
     php7-zlib \
-    && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted \
+    && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted \
     gnu-libiconv
 
 # install and remove building packages

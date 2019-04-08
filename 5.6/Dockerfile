@@ -41,7 +41,7 @@ RUN apk add --no-cache \
     php5-xmlreader \
     php5-zip \
     php5-zlib \
-    && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted \
+    && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted \
     gnu-libiconv
 
 # install and remove building packages
