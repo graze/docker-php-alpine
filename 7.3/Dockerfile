@@ -13,6 +13,7 @@ ADD https://php.codecasts.rocks/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.
 
 RUN set -xe \
     && echo "https://php.codecasts.rocks/v3.9/php-7.3" >> /etc/apk/repositories \
+    && echo "@php https://php.codecasts.rocks/v3.9/php-7.3" >> /etc/apk/repositories \
     && apk add --update --no-cache \
     ca-certificates \
     curl \
