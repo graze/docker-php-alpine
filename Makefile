@@ -33,7 +33,7 @@ build-%: cache ?= --no-cache
 build-%: pull ?= --pull
 build-%: ## build a generic image
 	docker build ${build_args} ${cache} ${pull} -t graze/php-alpine:$* $*/.
-	docker build ${build_args} ${cache} -t graze/php-alpine:$*-test -f $*/Dockerfile.debug $*/.
+	docker build ${build_args} ${cache} -t graze/php-alpine:$*-test -f $*/debug.Dockerfile $*/.
 
 clean-%: ## Clean up the images
 	docker rmi $$(docker images -q graze/php-alpine:$**) || echo "no images"

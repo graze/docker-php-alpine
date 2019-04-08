@@ -52,7 +52,7 @@ RUN set -xe \
     php7-xmlwriter \
     php7-zip \
     php7-zlib \
-    && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted \
+    && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted \
     gnu-libiconv
 
 # install and remove building packages

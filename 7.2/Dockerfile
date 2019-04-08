@@ -8,8 +8,6 @@ LABEL maintainer="developers@graze.com" \
     org.label-schema.description="small php image based on alpine" \
     org.label-schema.vcs-url="https://github.com/graze/docker-php-alpine"
 
-# setup remote php packagages
-
 RUN set -xe \
     && apk add --update --no-cache \
     ca-certificates \
@@ -55,7 +53,7 @@ RUN set -xe \
     php7-yaml \
     php7-zip \
     php7-zlib \
-    && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted \
+    && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted \
     gnu-libiconv
 
 # install and remove building packages
