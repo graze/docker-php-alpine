@@ -8,12 +8,12 @@ LABEL maintainer="developers@graze.com" \
     org.label-schema.description="small php image based on alpine" \
     org.label-schema.vcs-url="https://github.com/graze/docker-php-alpine"
 
-# setup remote php packagages
-ADD https://php.codecasts.rocks/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
+# trust this project public key to trust the packages.
+ADD https://dl.bintray.com/php-alpine/key/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
 
 RUN set -xe \
-    && echo "https://php.codecasts.rocks/v3.9/php-7.3" >> /etc/apk/repositories \
-    && echo "@php https://php.codecasts.rocks/v3.9/php-7.3" >> /etc/apk/repositories \
+    && echo "https://dl.bintray.com/php-alpine/v3.9/php-7.3" >> /etc/apk/repositories \
+    && echo "@php https://dl.bintray.com/php-alpine/v3.9/php-7.3" >> /etc/apk/repositories \
     && apk add --update --no-cache \
     ca-certificates \
     curl \
