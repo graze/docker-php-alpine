@@ -8,8 +8,8 @@
   [ "$status" -eq 0 ]
   [[ "$output" == *"(7.3"* ]]
 
-  [[ "$output" == *"(7)"* ]]
-  [[ "$output" == *"(latest)"* ]]
+  [[ "$output" != *"(7)"* ]]
+  [[ "$output" != *"(latest)"* ]]
 
   [[ "$output" != *"(7-test)"* ]]
   [[ "$output" != *"(7.3-test)"* ]]
@@ -24,8 +24,8 @@
   [ "$status" -eq 0 ]
   [[ "$output" == *"(7.3-test)"* ]]
 
-  [[ "$output" == *"(7-test)"* ]]
-  [[ "$output" == *"(test)"* ]]
+  [[ "$output" != *"(7-test)"* ]]
+  [[ "$output" != *"(test)"* ]]
 
   [[ "$output" != *"(7)"* ]]
   [[ "$output" != *"(7.1)"* ]]
