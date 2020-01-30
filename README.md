@@ -44,12 +44,12 @@ standard, [tokenizer](http://php.net/manual/en/book.tokenizer.php), [xml](http:/
 
 Testing images are the same as the standard, but with xdebug (php5.6) or phpdbg (php7.*)
 
-- `7.4-test`, `7-test`, `test` [7.4/Dockerfile.debug](https://github.com/graze/docker-php-alpine/blob/master/7.4/Dockerfile.debug)
-- `7.3-test` [7.3/Dockerfile.debug](https://github.com/graze/docker-php-alpine/blob/master/7.3/Dockerfile.debug)
-- `7.2-test` [7.2/Dockerfile.debug](https://github.com/graze/docker-php-alpine/blob/master/7.2/Dockerfile.debug)
-- `7.1-test` [7.1/Dockerfile.debug](https://github.com/graze/docker-php-alpine/blob/master/7.1/Dockerfile.debug)
-- `7.0-test` [7.0/Dockerfile.debug](https://github.com/graze/docker-php-alpine/blob/master/7.0/Dockerfile.debug)
-- `5.6-test`, `5-test` [5.6/Dockerfile.debug](https://github.com/graze/docker-php-alpine/blob/master/5.6/Dockerfile.debug)
+- `7.4-test`, `7-test`, `test` [7.4/debug.Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.4/debug.Dockerfile)
+- `7.3-test` [7.3/debug.Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.3/debug.Dockerfile)
+- `7.2-test` [7.2/debug.Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.2/debug.Dockerfile)
+- `7.1-test` [7.1/debug.Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.1/debug.Dockerfile)
+- `7.0-test` [7.0/debug.Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.0/debug.Dockerfile)
+- `5.6-test`, `5-test` [5.6/debug.Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/5.6/debug.Dockerfile)
 
 ## Testing PHP Modules
 
