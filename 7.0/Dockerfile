@@ -12,7 +12,6 @@ RUN apk add --no-cache \
     ca-certificates \
     curl \
     openssh-client \
-    yaml \
     pcre \
     libmemcached-libs \
     libevent \
@@ -51,7 +50,7 @@ RUN apk add --no-cache \
 
 # install and remove building packages
 ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php7-dev php7-pear \
-    yaml-dev pcre-dev zlib-dev libmemcached-dev cyrus-sasl-dev libevent-dev openssl-dev
+    pcre-dev zlib-dev libmemcached-dev cyrus-sasl-dev libevent-dev openssl-dev
 
 ENV PHP_INI_DIR /etc/php7
 
@@ -61,8 +60,7 @@ RUN set -xe \
     $PHPIZE_DEPS \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
     && pecl channel-update pecl.php.net \
-    && pecl install yaml apcu memcached event \
-    && echo "extension=yaml.so" > $PHP_INI_DIR/conf.d/01_yaml.ini \
+    && pecl install apcu memcached event \
     && echo "extension=apcu.so" > $PHP_INI_DIR/conf.d/01_apcu.ini \
     && echo "extension=event.so" > $PHP_INI_DIR/conf.d/01_event.ini \
     && echo "extension=memcached.so" > $PHP_INI_DIR/conf.d/20_memcached.ini \

@@ -123,7 +123,6 @@ readonly container="graze/php-alpine:7.0"
   [[ "${output}" == *"xml"* ]]
   [[ "${output}" == *"xmlreader"* ]]
   [[ "${output}" == *"xmlwriter"* ]]
-  [[ "${output}" == *"yaml"* ]]
   [[ "${output}" == *"Zend OPcache"* ]]
   [[ "${output}" == *"zip"* ]]
   [[ "${output}" == *"zlib"* ]]
