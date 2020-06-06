@@ -81,7 +81,6 @@ readonly container="graze/php-alpine:7.2-test"
   echo 'status:' $status
   echo 'output:' $output
   [ "$status" -eq 0 ]
-  [[ "${output}" != *"mcrypt"* ]]
   [[ "${output}" == *"apcu"* ]]
   [[ "${output}" == *"bcmath"* ]]
   [[ "${output}" == *"Core"* ]]

@@ -33,7 +33,6 @@ RUN set -xe \
     php7-opcache \
     php7-mbstring \
     php7-memcached \
-    php7-mcrypt \
     php7-mysqlnd \
     php7-mysqli \
     php7-pcntl \
