@@ -37,7 +37,7 @@ Public image for php in alpine with a set of common extensions
 [sodium](http://php.net/manual/en/book.sodium.php) (PHP 7.2 +), [SPL](http://php.net/manual/en/book.spl.php),
 standard, [tokenizer](http://php.net/manual/en/book.tokenizer.php), [xml](http://php.net/manual/en/book.xml.php),
 [xmlreader](http://php.net/manual/en/book.xmlreader.php), [xmlwriter](http://php.net/manual/en/book.xmlwriter.php),
-[yaml](http://php.net/manual/en/book.yaml.php), [Zend OPcache](http://php.net/manual/en/book.opcache.php),
+[yaml](http://php.net/manual/en/book.yaml.php) (not PHP 7.0), [Zend OPcache](http://php.net/manual/en/book.opcache.php),
 [zip](http://php.net/manual/en/book.zip.php), [zlib](http://php.net/manual/en/book.zlib.php)
 
 ## Testing Images
