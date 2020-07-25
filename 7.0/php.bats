@@ -172,3 +172,11 @@
   echo 'status:' $status
   [ "$status" -eq 0 ]
 }
+
+@test "short open tag enabled" {
+  run bash -c "docker run ${container} php -i | grep -w short_open_tag"
+  echo "status: $status"
+  echo "output: $output"
+  [ "$status" -eq 0 ]
+  [ "$output" == "short_open_tag => On => On" ]
+}
