@@ -1,7 +1,5 @@
 #!/usr/bin/env bats
 
-readonly container="graze/php-alpine:7.1"
-
 @test "php version is correct" {
   run docker run --rm ${container} php -v
   echo 'status:' $status
