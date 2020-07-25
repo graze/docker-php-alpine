@@ -2,6 +2,7 @@ SHELL = /bin/bash
 
 docker_bats := docker run --rm \
 		-v $$(pwd):/app -v /var/run/docker.sock:/var/run/docker.sock \
+		-e container \
 		graze/bats
 
 build_args := --build-arg BUILD_DATE=$(shell date -u +"%Y-%m-%dT%H:%M:%SZ") \
@@ -42,8 +43,8 @@ deploy-%: ## Deploy a specific version
 	make tag-$* push-$*
 
 test-%: ## Test a version
-	${docker_bats} ./$*/php.bats
-	${docker_bats} ./$*/php_debug.bats
+	container=graze/php-alpine:$* ${docker_bats} ./$*/php.bats
+	container=graze/php-alpine:$*-test ${docker_bats} ./$*/php.bats ./$*/php_debug.bats
 	${docker_bats} ./$*/tags.bats
 
 tag-%: ## Tag an image
