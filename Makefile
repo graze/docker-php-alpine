@@ -43,8 +43,8 @@ deploy-%: ## Deploy a specific version
 	make tag-$* push-$*
 
 test-%: ## Test a version
-	container=graze/php-alpine:$* ${docker_bats} ./$*/php.bats
-	container=graze/php-alpine:$*-test ${docker_bats} ./$*/php.bats ./$*/php_debug.bats
+	container=graze/php-alpine:$* ${docker_bats} ./common/php.bats ./$*/php.bats
+	container=graze/php-alpine:$*-test ${docker_bats} ./common/php.bats ./$*/php.bats ./$*/php_debug.bats
 	${docker_bats} ./$*/tags.bats
 
 tag-%: ## Tag an image
