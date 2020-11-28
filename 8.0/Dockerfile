@@ -1,4 +1,4 @@
-FROM alpine:3.9
+FROM alpine:3.12
 
 LABEL maintainer="developers@graze.com" \
     license="MIT" \
@@ -14,8 +14,8 @@ ADD https://dl.bintray.com/php-alpine/key/php-alpine.rsa.pub /etc/apk/keys/php-a
 RUN set -xe \
     && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted \
     gnu-libiconv \
-    && echo "https://dl.bintray.com/php-alpine/v3.9/php-7.4" >> /etc/apk/repositories \
-    && echo "@php https://dl.bintray.com/php-alpine/v3.9/php-7.4" >> /etc/apk/repositories \
+    && echo "https://dl.bintray.com/php-alpine/v3.12/php-8.0" >> /etc/apk/repositories \
+    && echo "@php https://dl.bintray.com/php-alpine/v3.12/php-8.0" >> /etc/apk/repositories \
     && apk add --update --no-cache \
     ca-certificates \
     curl \
@@ -25,44 +25,44 @@ RUN set -xe \
     libssl1.1 \
     musl \
     yaml \
-    php \
-    php-apcu \
-    php-bcmath \
-    php-ctype \
-    php-curl \
-    php-dom \
-    php-iconv \
-    php-intl \
-    php-json \
-    php-openssl \
-    php-opcache \
-    php-mbstring \
-    php-memcached \
-    php-mysqlnd \
-    php-mysqli \
-    php-pcntl \
-    php-pgsql \
-    php-pdo_mysql \
-    php-pdo_pgsql \
-    php-pdo_sqlite \
-    php-phar \
-    php-posix \
-    php-session \
-    php-soap \
-    php-sockets \
-    php-sodium \
-    php-xml \
-    php-xmlreader \
-    php-zip \
-    php-zlib
+    php8 \
+    php8-apcu \
+    php8-bcmath \
+    php8-ctype \
+    php8-curl \
+    php8-dom \
+    php8-iconv \
+    php8-intl \
+    php8-json \
+    php8-openssl \
+    php8-opcache \
+    php8-mbstring \
+    php8-memcached \
+    php8-mysqlnd \
+    php8-mysqli \
+    php8-pcntl \
+    php8-pgsql \
+    php8-pdo_mysql \
+    php8-pdo_pgsql \
+    php8-pdo_sqlite \
+    php8-phar \
+    php8-posix \
+    php8-session \
+    php8-soap \
+    php8-sockets \
+    php8-sodium \
+    php8-xml \
+    php8-xmlreader \
+    php8-zip \
+    php8-zlib
 
 # install and remove building packages
 ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php-dev php-pear \
     yaml-dev libevent-dev openssl-dev
 
-ENV PHP_INI_DIR /etc/php7
+ENV PHP_INI_DIR /etc/php8
 
-RUN ln -s /usr/bin/php7 /usr/bin/php
+RUN ln -s /usr/bin/php8 /usr/bin/php
 
 RUN set -xe \
     && apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
