@@ -37,7 +37,7 @@ RUN set -xe \
     php8-openssl \
     php8-opcache \
     php8-mbstring \
-    php8-memcached \
+    # php8-memcached \
     php8-mysqlnd \
     php8-mysqli \
     php8-pcntl \
@@ -69,10 +69,11 @@ RUN set -xe \
     $PHPIZE_DEPS \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
     && pecl channel-update pecl.php.net \
-    && pecl install yaml event \
+    && pecl install yaml \
+    # event \
     && echo "extension=yaml.so" > $PHP_INI_DIR/conf.d/01_yaml.ini \
-    && echo "extension=event.so" > $PHP_INI_DIR/conf.d/01_event.ini \
-    && rm -rf /usr/share/php7 \
+    # && echo "extension=event.so" > $PHP_INI_DIR/conf.d/01_event.ini \
+    && rm -rf /usr/share/php8 \
     && rm -rf /tmp/* \
     && apk del .phpize-deps
 
