@@ -28,12 +28,12 @@ RUN set -xe \
     php8 \
     php8-apcu \
     php8-bcmath \
+    php8-common \
     php8-ctype \
     php8-curl \
     php8-dom \
     php8-iconv \
     php8-intl \
-    php8-json \
     php8-openssl \
     php8-opcache \
     php8-mbstring \
@@ -53,8 +53,7 @@ RUN set -xe \
     php8-sodium \
     php8-xml \
     php8-xmlreader \
-    php8-zip \
-    php8-zlib
+    php8-zip
 
 # install and remove building packages
 ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php-dev php-pear \
