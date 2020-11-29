@@ -1,4 +1,4 @@
-FROM graze/php-alpine:7.4
+FROM graze/php-alpine:8.0
 
 RUN apk add --update --no-cache \
     php-phpdbg
