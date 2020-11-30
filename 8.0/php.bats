@@ -7,7 +7,7 @@
   version="$(echo $output | sed 's/.*PHP \([0-9].[0-9]\).*/\1/')"
   echo 'version:' $version
   [ "$status" -eq 0 ]
-  [[ "$version" == "7.4" ]]
+  [[ "$version" == "8.0" ]]
 }
 
 @test "the image has the correct php modules installed" {
@@ -22,7 +22,7 @@
   [[ "${output}" == *"curl"* ]]
   [[ "${output}" == *"date"* ]]
   [[ "${output}" == *"dom"* ]]
-  [[ "${output}" == *"event"* ]]
+  # [[ "${output}" == *"event"* ]]
   [[ "${output}" == *"fileinfo"* ]]
   [[ "${output}" == *"filter"* ]]
   [[ "${output}" == *"hash"* ]]
@@ -31,7 +31,7 @@
   [[ "${output}" == *"json"* ]]
   [[ "${output}" == *"libxml"* ]]
   [[ "${output}" == *"mbstring"* ]]
-  [[ "${output}" == *"memcached"* ]]
+  # [[ "${output}" == *"memcached"* ]]
   [[ "${output}" == *"mysqli"* ]]
   [[ "${output}" == *"mysqlnd"* ]]
   [[ "${output}" == *"openssl"* ]]
@@ -60,5 +60,5 @@
   [[ "${output}" == *"yaml"* ]]
   [[ "${output}" == *"Zend OPcache"* ]]
   [[ "${output}" == *"zip"* ]]
-  [[ "${output}" == *"zlib"* ]]
+  # [[ "${output}" == *"zlib"* ]]
 }
