@@ -10,6 +10,7 @@ build_args := --build-arg BUILD_DATE=$(shell date -u +"%Y-%m-%dT%H:%M:%SZ") \
 
 latest_5 := 5.6
 latest_7 := 7.4
+latest_8 := 8.0
 latest := 7.4
 
 .PHONY: build build-quick
@@ -57,6 +58,11 @@ tag-%: ## Tag an image
 		echo "Tagging latest 7.x version ($*)"; \
 		docker tag graze/php-alpine:$*-test graze/php-alpine:7-test; \
 		docker tag graze/php-alpine:$* graze/php-alpine:7; \
+	fi
+	@if [ "$*" = "${latest_8}" ]; then \
+		echo "Tagging latest 8.x version ($*)"; \
+		docker tag graze/php-alpine:$*-test graze/php-alpine:8-test; \
+		docker tag graze/php-alpine:$* graze/php-alpine:8; \
 	fi
 	@if [ "$*" = "${latest}" ]; then \
 		echo "Tagging latest version ($*)"; \
