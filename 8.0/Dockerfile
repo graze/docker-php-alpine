@@ -12,13 +12,12 @@ LABEL maintainer="developers@graze.com" \
 ADD https://dl.bintray.com/php-alpine/key/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
 
 RUN set -xe \
-    && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted \
-    gnu-libiconv \
     && echo "https://dl.bintray.com/php-alpine/v3.12/php-8.0" >> /etc/apk/repositories \
     && echo "@php https://dl.bintray.com/php-alpine/v3.12/php-8.0" >> /etc/apk/repositories \
     && apk add --update --no-cache \
     ca-certificates \
     curl \
+    gnu-libiconv \
     openssh-client \
     libmemcached-libs \
     libevent \
