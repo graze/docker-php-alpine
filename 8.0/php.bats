@@ -31,7 +31,7 @@
   [[ "${output}" == *"json"* ]]
   [[ "${output}" == *"libxml"* ]]
   [[ "${output}" == *"mbstring"* ]]
-  # [[ "${output}" == *"memcached"* ]]
+  [[ "${output}" == *"memcached"* ]]
   [[ "${output}" == *"mysqli"* ]]
   [[ "${output}" == *"mysqlnd"* ]]
   [[ "${output}" == *"openssl"* ]]

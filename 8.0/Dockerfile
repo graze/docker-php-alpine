@@ -36,7 +36,7 @@ RUN set -xe \
     php8-openssl \
     php8-opcache \
     php8-mbstring \
-    # php8-memcached \
+    php8-memcached \
     php8-mysqlnd \
     php8-mysqli \
     php8-pcntl \
