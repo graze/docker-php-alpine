@@ -54,7 +54,8 @@ RUN set -xe \
     php7-yaml \
     php7-zip \
     php7-zlib \
-    && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted \
+    # alpine 3.10 is the first version that provides a gnu-libiconv with the preload library needed
+    && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.10/community/ --allow-untrusted \
     gnu-libiconv
 
 # install and remove building packages
