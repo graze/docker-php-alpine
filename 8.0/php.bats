@@ -22,7 +22,7 @@
   [[ "${output}" == *"curl"* ]]
   [[ "${output}" == *"date"* ]]
   [[ "${output}" == *"dom"* ]]
-  # [[ "${output}" == *"event"* ]]
+  [[ "${output}" == *"event"* ]]
   [[ "${output}" == *"fileinfo"* ]]
   [[ "${output}" == *"filter"* ]]
   [[ "${output}" == *"hash"* ]]

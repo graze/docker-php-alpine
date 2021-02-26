@@ -70,9 +70,9 @@ RUN set -xe \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
     && pecl channel-update pecl.php.net \
     && pecl install yaml \
-    # event \
+    event \
     && echo "extension=yaml.so" > $PHP_INI_DIR/conf.d/01_yaml.ini \
-    # && echo "extension=event.so" > $PHP_INI_DIR/conf.d/01_event.ini \
+    && echo "extension=event.so" > $PHP_INI_DIR/conf.d/01_event.ini \
     && rm -rf /usr/share/php8 \
     && rm -rf /tmp/* \
     && apk del .phpize-deps
