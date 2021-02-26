@@ -52,7 +52,8 @@ RUN set -xe \
     php8-sodium \
     php8-xml \
     php8-xmlreader \
-    php8-zip
+    php8-zip \
+    php8-zlib
 
 # install and remove building packages
 ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php-dev php-pear \

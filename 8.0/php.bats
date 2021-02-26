@@ -60,5 +60,5 @@
   [[ "${output}" == *"yaml"* ]]
   [[ "${output}" == *"Zend OPcache"* ]]
   [[ "${output}" == *"zip"* ]]
-  # [[ "${output}" == *"zlib"* ]]
+  [[ "${output}" == *"zlib"* ]]
 }
