@@ -59,17 +59,26 @@ All of the above modules, [xdebug](https://xdebug.org/) (PHP 5.6 only, PHP 7.0+ 
 
 ## Dev
 
-    ~ $ make build-quick
-    ~ $ make tag test
+```
+make build-quick
+make tag test
+```
 
 ## Pulling
 
-    ~ $ docker pull graze/php-alpine
+```
+docker pull graze/php-alpine
+```
 
 ## Usage
 
-    ~ $ docker run --rm graze/php-alpine -v $(pwd):/srv php some/script.php
+```
+docker run --rm graze/php-alpine -v $(pwd):/srv php some/script.php
+```
 
 ## Running with phpdbg
 
-    ~ $ docker run --rm graze/php-alpine:test -v $(pwd):/srv phpdbg7 some/script.php
+```
+docker run --rm graze/php-alpine:test -v $(pwd):/srv phpdbg7 some/script.php
+```
+
