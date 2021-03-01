@@ -13,6 +13,7 @@ env:
     - VER=7.2
     - VER=7.3
     - VER=7.4
+    - VER=8.0
   global:
     # DOCKER_USERNAME
     - secure: hJxx3pt08GGxbaSWKMYWXVvwlrn/sJbh4rpLveUGz5pd9C8IcvkOJsrXrtVqr7/4jb5/CQwz65cGyukxzbonvUZgt0mfmZ9GunpD1pz3IusjXvYlZOZ1LL/i6t57J7fMKtUXxBTWNQSS9pH7pEHixvMabS3kqQb74Nj6wQFNzucmnEQGCT0drs8NrlfEfaNdXkJ5ijqdY42QM0BfGU7SnO0/puaEapl3I/n1TLWf60YUV2etl8BaFZckX7ewHvLWs+nXtHUMSezO/9jupb2pOR600+/77Pdfj735hvymD/gAjzTMRJlcUAOThkQfwI4Zt4MoJKvjXbrcYYsz5yEk4o8wPRX/5lZUso2NNRR/J3ahTZZGpDxp+plwY+v6KYwC7L6Bc6HYZbDaxMMXvMokxjyyAtmewaWsVEf+VDTxg5wowJj6esfd+Z0a6IvBFiVxOzltRtR4SqLvFrjq5vPM+RHK1UStJOHCNjpDq5BrEo7bWp+Fi66LpWQYQEL15EjQy3xcx9pfY+5rHot0ClHSqror9RQmQSmmsQWZCFEcjwt07hbmwp75LjFeQm0wRAl6dBZ1CJly/6daVIv4cj7bh72McrhesXc2EmesxEbQaUd/rJjGhaoZ/joPR8gN2RLnCFPzCXdITHXWxThjUZZwPIqtJiI3xXR5vmWidV552ZA=
