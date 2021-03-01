@@ -8,7 +8,8 @@ Public image for php in alpine with a set of common extensions
 
 ## Images
 
-- `7.4`, `7`, `latest` [7.4/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.4/Dockerfile)
+- `8.0`, `8`, `latest` [8.0/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/8.0/Dockerfile)
+- `7.4`, `7` [7.4/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.4/Dockerfile)
 - `7.3` [7.3/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.3/Dockerfile)
 - `7.2` [7.2/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.2/Dockerfile)
 - `7.1` [7.1/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.1/Dockerfile)
@@ -42,9 +43,10 @@ standard, [tokenizer](http://php.net/manual/en/book.tokenizer.php), [xml](http:/
 
 ## Testing Images
 
-Testing images are the same as the standard, but with xdebug (php5.6) or phpdbg (php7.*)
+Testing images are the same as the standard, but with xdebug (php 5.6) or phpdbg (php 7.* and 8.*)
 
-- `7.4-test`, `7-test`, `test` [7.4/debug.Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.4/debug.Dockerfile)
+- `8.0-test`, `8-test`, `test` [8.0/debug.Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/8.0/debug.Dockerfile)
+- `7.4-test`, `7-test` [7.4/debug.Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.4/debug.Dockerfile)
 - `7.3-test` [7.3/debug.Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.3/debug.Dockerfile)
 - `7.2-test` [7.2/debug.Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.2/debug.Dockerfile)
 - `7.1-test` [7.1/debug.Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.1/debug.Dockerfile)
@@ -57,17 +59,26 @@ All of the above modules, [xdebug](https://xdebug.org/) (PHP 5.6 only, PHP 7.0+ 
 
 ## Dev
 
-    ~ $ make build-quick
-    ~ $ make tag test
+```
+make build-quick
+make tag test
+```
 
 ## Pulling
 
-    ~ $ docker pull graze/php-alpine
+```
+docker pull graze/php-alpine
+```
 
 ## Usage
 
-    ~ $ docker run --rm graze/php-alpine -v $(pwd):/srv php some/script.php
+```
+docker run --rm graze/php-alpine -v $(pwd):/srv php some/script.php
+```
 
 ## Running with phpdbg
 
-    ~ $ docker run --rm graze/php-alpine:test -v $(pwd):/srv phpdbg7 some/script.php
+```
+docker run --rm graze/php-alpine:test -v $(pwd):/srv phpdbg7 some/script.php
+```
+
