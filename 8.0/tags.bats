@@ -9,7 +9,7 @@
   [[ "$output" == *"(8.0"* ]]
 
   [[ "$output" == *"(8)"* ]]
-  [[ "$output" != *"(latest)"* ]]
+  [[ "$output" == *"(latest)"* ]]
 
   [[ "$output" != *"(8-test)"* ]]
   [[ "$output" != *"(8.0-test)"* ]]
@@ -25,6 +25,6 @@
   [[ "$output" == *"(8.0-test)"* ]]
 
   [[ "$output" == *"(8-test)"* ]]
-  [[ "$output" != *"(test)"* ]]
+  [[ "$output" == *"(test)"* ]]
   [[ "$output" != *"(latest)"* ]]
 }
