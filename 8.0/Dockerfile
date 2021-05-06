@@ -29,6 +29,7 @@ RUN set -xe \
     php8-ctype \
     php8-curl \
     php8-dom \
+    php8-fileinfo \
     php8-iconv \
     php8-intl \
     php8-openssl \
@@ -43,12 +44,15 @@ RUN set -xe \
     php8-pdo_sqlite \
     php8-phar \
     php8-posix \
+    php8-simplexml \
     php8-session \
     php8-soap \
     php8-sockets \
     php8-sodium \
+    php8-tokenizer \
     php8-xml \
     php8-xmlreader \
+    php8-xmlwriter \
     php8-zip \
     php8-zlib
 
