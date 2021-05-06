@@ -65,7 +65,7 @@ ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php7-dev php7-p
 ENV PHP_INI_DIR /etc/php7
 
 RUN set -xe \
-    && apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
+    && apk add --no-cache \
     --virtual .phpize-deps \
     $PHPIZE_DEPS \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \

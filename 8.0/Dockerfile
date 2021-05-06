@@ -1,4 +1,4 @@
-FROM alpine:3.12
+FROM alpine:3.13
 
 LABEL maintainer="developers@graze.com" \
     license="MIT" \
@@ -8,12 +8,7 @@ LABEL maintainer="developers@graze.com" \
     org.label-schema.description="small php image based on alpine" \
     org.label-schema.vcs-url="https://github.com/graze/docker-php-alpine"
 
-# trust this project public key to trust the packages.
-ADD https://dl.bintray.com/php-alpine/key/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
-
 RUN set -xe \
-    && echo "https://dl.bintray.com/php-alpine/v3.12/php-8.0" >> /etc/apk/repositories \
-    && echo "@php https://dl.bintray.com/php-alpine/v3.12/php-8.0" >> /etc/apk/repositories \
     && apk add --update --no-cache \
     ca-certificates \
     curl \
@@ -25,18 +20,21 @@ RUN set -xe \
     musl \
     yaml \
     php8 \
-    php8-apcu \
+    php8-pecl-apcu \
+    php8-pecl-event \
+    php8-pecl-memcached \
+    php8-pecl-yaml \
     php8-bcmath \
     php8-common \
     php8-ctype \
     php8-curl \
     php8-dom \
+    php8-fileinfo \
     php8-iconv \
     php8-intl \
     php8-openssl \
     php8-opcache \
     php8-mbstring \
-    php8-memcached \
     php8-mysqlnd \
     php8-mysqli \
     php8-pcntl \
@@ -46,36 +44,22 @@ RUN set -xe \
     php8-pdo_sqlite \
     php8-phar \
     php8-posix \
+    php8-simplexml \
     php8-session \
     php8-soap \
     php8-sockets \
     php8-sodium \
+    php8-tokenizer \
     php8-xml \
     php8-xmlreader \
+    php8-xmlwriter \
     php8-zip \
     php8-zlib
-
-# install and remove building packages
-ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php-dev php-pear \
-    yaml-dev libevent-dev openssl-dev
 
 ENV PHP_INI_DIR /etc/php8
 
 RUN ln -s /usr/bin/php8 /usr/bin/php
-
-RUN set -xe \
-    && apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
-    --virtual .phpize-deps \
-    $PHPIZE_DEPS \
-    && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
-    && pecl channel-update pecl.php.net \
-    && pecl install yaml \
-    event \
-    && echo "extension=yaml.so" > $PHP_INI_DIR/conf.d/01_yaml.ini \
-    && echo "extension=event.so" > $PHP_INI_DIR/conf.d/01_event.ini \
-    && rm -rf /usr/share/php8 \
-    && rm -rf /tmp/* \
-    && apk del .phpize-deps
+RUN ln -s /usr/bin/pecl8 /usr/bin/pecl
 
 COPY php/conf.d/*.ini $PHP_INI_DIR/conf.d/
 

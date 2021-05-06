@@ -1,4 +1,4 @@
-FROM alpine:3.9
+FROM alpine:3.12
 
 LABEL maintainer="developers@graze.com" \
     license="MIT" \
@@ -8,16 +8,9 @@ LABEL maintainer="developers@graze.com" \
     org.label-schema.description="small php image based on alpine" \
     org.label-schema.vcs-url="https://github.com/graze/docker-php-alpine"
 
-# trust this project public key to trust the packages.
-ADD https://dl.bintray.com/php-alpine/key/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
-
 RUN set -xe \
-    # alpine 3.10 is the first version that provides a gnu-libiconv with the preload library needed
-    && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.10/community/ --allow-untrusted \
-    gnu-libiconv \
-    && echo "https://dl.bintray.com/php-alpine/v3.9/php-7.3" >> /etc/apk/repositories \
-    && echo "@php https://dl.bintray.com/php-alpine/v3.9/php-7.3" >> /etc/apk/repositories \
     && apk add --update --no-cache \
+    gnu-libiconv \
     ca-certificates \
     curl \
     openssh-client \
@@ -26,57 +19,44 @@ RUN set -xe \
     libssl1.1 \
     musl \
     yaml \
-    php \
-    php-apcu \
-    php-bcmath \
-    php-ctype \
-    php-curl \
-    php-dom \
-    php-iconv \
-    php-intl \
-    php-json \
-    php-openssl \
-    php-opcache \
-    php-mbstring \
-    php-memcached \
-    php-mysqlnd \
-    php-mysqli \
-    php-pcntl \
-    php-pgsql \
-    php-pdo_mysql \
-    php-pdo_pgsql \
-    php-pdo_sqlite \
-    php-phar \
-    php-posix \
-    php-session \
-    php-soap \
-    php-sockets \
-    php-sodium \
-    php-xml \
-    php-xmlreader \
-    php-zip \
-    php-zlib
-
-# install and remove building packages
-ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php-dev php-pear \
-    yaml-dev libevent-dev openssl-dev
+    php7 \
+    php7-pecl-apcu \
+    php7-pecl-event \
+    php7-pecl-memcached \
+    php7-pecl-yaml \
+    php7-bcmath \
+    php7-ctype \
+    php7-curl \
+    php7-dom \
+    php7-fileinfo \
+    php7-iconv \
+    php7-intl \
+    php7-json \
+    php7-openssl \
+    php7-opcache \
+    php7-mbstring \
+    php7-mysqlnd \
+    php7-mysqli \
+    php7-pcntl \
+    php7-pgsql \
+    php7-pdo_mysql \
+    php7-pdo_pgsql \
+    php7-pdo_sqlite \
+    php7-phar \
+    php7-posix \
+    php7-simplexml \
+    php7-session \
+    php7-soap \
+    php7-sockets \
+    php7-sodium \
+    php7-tokenizer \
+    php7-xml \
+    php7-xmlreader \
+    php7-xmlwriter \
+    php7-zip \
+    php7-zlib
 
 ENV PHP_INI_DIR /etc/php7
-
-RUN ln -s /usr/bin/php7 /usr/bin/php
-
-RUN set -xe \
-    && apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
-    --virtual .phpize-deps \
-    $PHPIZE_DEPS \
-    && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
-    && pecl channel-update pecl.php.net \
-    && pecl install yaml event \
-    && echo "extension=yaml.so" > $PHP_INI_DIR/conf.d/01_yaml.ini \
-    && echo "extension=event.so" > $PHP_INI_DIR/conf.d/01_event.ini \
-    && rm -rf /usr/share/php7 \
-    && rm -rf /tmp/* \
-    && apk del .phpize-deps
 
 COPY php/conf.d/*.ini $PHP_INI_DIR/conf.d/
 
