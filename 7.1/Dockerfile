@@ -54,7 +54,9 @@ RUN set -xe \
     php7-zlib \
     # alpine 3.10 is the first version that provides a gnu-libiconv with the preload library needed
     && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.10/community/ --allow-untrusted \
-    gnu-libiconv
+    gnu-libiconv \
+    php7-common=~7.1
+
 
 # install and remove building packages
 ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php7-dev php7-pear \
@@ -63,7 +65,7 @@ ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php7-dev php7-p
 ENV PHP_INI_DIR /etc/php7
 
 RUN set -xe \
-    && apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
+    && apk add --no-cache \
     --virtual .phpize-deps \
     $PHPIZE_DEPS \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
