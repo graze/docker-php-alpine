@@ -21,7 +21,9 @@ RUN set -xe \
     yaml \
     php8 \
     php8-pecl-apcu \
+    php8-pecl-event \
     php8-pecl-memcached \
+    php8-pecl-yaml \
     php8-bcmath \
     php8-common \
     php8-ctype \
@@ -50,28 +52,10 @@ RUN set -xe \
     php8-zip \
     php8-zlib
 
-# install and remove building packages
-ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php8-dev php8-pear \
-    yaml-dev libevent-dev openssl-dev
-
 ENV PHP_INI_DIR /etc/php8
 
 RUN ln -s /usr/bin/php8 /usr/bin/php
 RUN ln -s /usr/bin/pecl8 /usr/bin/pecl
-
-RUN set -xe \
-    && apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
-    --virtual .phpize-deps \
-    $PHPIZE_DEPS \
-    && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
-    && pecl channel-update pecl.php.net \
-    && pecl install yaml \
-    event \
-    && echo "extension=yaml.so" > $PHP_INI_DIR/conf.d/01_yaml.ini \
-    && echo "extension=event.so" > $PHP_INI_DIR/conf.d/01_event.ini \
-    && rm -rf /usr/share/php8 \
-    && rm -rf /tmp/* \
-    && apk del .phpize-deps
 
 COPY php/conf.d/*.ini $PHP_INI_DIR/conf.d/
 

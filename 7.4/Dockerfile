@@ -20,7 +20,10 @@ RUN set -xe \
     musl \
     yaml \
     php7 \
-    php7-apcu \
+    php7-pecl-apcu \
+    php7-pecl-event \
+    php7-pecl-memcached \
+    php7-pecl-yaml \
     php7-bcmath \
     php7-ctype \
     php7-curl \
@@ -31,7 +34,6 @@ RUN set -xe \
     php7-openssl \
     php7-opcache \
     php7-mbstring \
-    php7-memcached \
     php7-mysqlnd \
     php7-mysqli \
     php7-pcntl \
@@ -50,24 +52,7 @@ RUN set -xe \
     php7-zip \
     php7-zlib
 
-# install and remove building packages
-ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php7-dev php7-pear \
-    yaml-dev libevent-dev openssl-dev
-
 ENV PHP_INI_DIR /etc/php7
-
-RUN set -xe \
-    && apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
-    --virtual .phpize-deps \
-    $PHPIZE_DEPS \
-    && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
-    && pecl channel-update pecl.php.net \
-    && pecl install yaml event \
-    && echo "extension=yaml.so" > $PHP_INI_DIR/conf.d/01_yaml.ini \
-    && echo "extension=event.so" > $PHP_INI_DIR/conf.d/01_event.ini \
-    && rm -rf /usr/share/php7 \
-    && rm -rf /tmp/* \
-    && apk del .phpize-deps
 
 COPY php/conf.d/*.ini $PHP_INI_DIR/conf.d/
 
