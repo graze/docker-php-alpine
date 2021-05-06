@@ -1,4 +1,4 @@
-FROM alpine:3.12
+FROM alpine:3.13
 
 LABEL maintainer="developers@graze.com" \
     license="MIT" \
@@ -8,12 +8,7 @@ LABEL maintainer="developers@graze.com" \
     org.label-schema.description="small php image based on alpine" \
     org.label-schema.vcs-url="https://github.com/graze/docker-php-alpine"
 
-# trust this project public key to trust the packages.
-ADD https://dl.bintray.com/php-alpine/key/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
-
 RUN set -xe \
-    && echo "https://dl.bintray.com/php-alpine/v3.12/php-8.0" >> /etc/apk/repositories \
-    && echo "@php https://dl.bintray.com/php-alpine/v3.12/php-8.0" >> /etc/apk/repositories \
     && apk add --update --no-cache \
     ca-certificates \
     curl \
@@ -25,7 +20,8 @@ RUN set -xe \
     musl \
     yaml \
     php8 \
-    php8-apcu \
+    php8-pecl-apcu \
+    php8-pecl-memcached \
     php8-bcmath \
     php8-common \
     php8-ctype \
@@ -36,7 +32,6 @@ RUN set -xe \
     php8-openssl \
     php8-opcache \
     php8-mbstring \
-    php8-memcached \
     php8-mysqlnd \
     php8-mysqli \
     php8-pcntl \
@@ -56,12 +51,13 @@ RUN set -xe \
     php8-zlib
 
 # install and remove building packages
-ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php-dev php-pear \
+ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php8-dev php8-pear \
     yaml-dev libevent-dev openssl-dev
 
 ENV PHP_INI_DIR /etc/php8
 
 RUN ln -s /usr/bin/php8 /usr/bin/php
+RUN ln -s /usr/bin/pecl8 /usr/bin/pecl
 
 RUN set -xe \
     && apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
