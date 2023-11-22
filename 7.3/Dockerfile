@@ -9,6 +9,7 @@ LABEL maintainer="developers@graze.com" \
     org.label-schema.vcs-url="https://github.com/graze/docker-php-alpine"
 
 RUN set -xe \
+    && echo "@php http://dl-cdn.alpinelinux.org/alpine/v3.12/community" >> /etc/apk/repositories \
     && apk add --update --no-cache \
     gnu-libiconv \
     ca-certificates \
