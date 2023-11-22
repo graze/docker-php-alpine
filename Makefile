@@ -1,6 +1,14 @@
 SHELL = /bin/bash
 
+UNAME := $(shell uname -m)
+PLATFROM = amd64
+ifeq ($(UNAME), arm64)
+  PLATFROM = arm64
+  BATS_SUFFIX = .arm64
+endif
+
 docker_bats := docker run --rm \
+		--platform linux/${PLATFROM} \
 		-v $$(pwd):/app -v /var/run/docker.sock:/var/run/docker.sock \
 		-e container \
 		graze/bats
@@ -25,6 +33,9 @@ build: build-5.6 build-7.0 build-7.1 build-7.2 build-7.3 build-7.4 build-8.0
 build-quick:
 	make build cache="" pull=""
 
+build-quick-%:
+	make build-$* cache="" pull=""
+
 tag: tag-5.6 tag-7.0 tag-7.1 tag-7.2 tag-7.3 tag-7.4 tag-8.0
 test: test-5.6 test-7.0 test-7.1 test-7.2 test-7.3 test-7.4 test-8.0
 push: push-5.6 push-7.0 push-7.1 push-7.2 push-7.3 push-7.4 push-8.0
@@ -34,8 +45,8 @@ deploy: deploy-5.6 deploy-7.0 deploy-7.1 deploy-7.2 deploy-7.3 deploy-7.4 deploy
 build-%: cache ?= --no-cache
 build-%: pull ?= --pull
 build-%: ## build a generic image
-	docker build ${build_args} ${cache} ${pull} -t graze/php-alpine:$* $*/.
-	docker build ${build_args} ${cache} -t graze/php-alpine:$*-test -f $*/debug.Dockerfile $*/.
+	docker buildx build --output type=docker --platform=linux/amd64,linux/arm64,linux/arm/v7 ${build_args} ${cache} ${pull} -t graze/php-alpine:$* $*/.
+	docker buildx build --output type=docker --platform=linux/amd64,linux/arm64,linux/arm/v7 ${build_args} ${cache} -t graze/php-alpine:$*-test -f $*/debug.Dockerfile $*/.
 
 clean-%: ## Clean up the images
 	docker rmi $$(docker images -q graze/php-alpine:$**) || echo "no images"
@@ -44,8 +55,13 @@ deploy-%: ## Deploy a specific version
 	make tag-$* push-$*
 
 test-%: ## Test a version
+ifeq ($(UNAME), arm64)
+	container=graze/php-alpine:$* ${docker_bats} ./common/php-arm64.bats ./common/php.bats ./$*/php.bats
+	container=graze/php-alpine:$*-test ${docker_bats} ./common/php-arm64.bats ./common/php.bats ./$*/php.bats ./$*/php_debug.bats
+else
 	container=graze/php-alpine:$* ${docker_bats} ./common/php.bats ./$*/php.bats
 	container=graze/php-alpine:$*-test ${docker_bats} ./common/php.bats ./$*/php.bats ./$*/php_debug.bats
+endif
 	${docker_bats} ./$*/tags.bats
 
 tag-%: ## Tag an image
