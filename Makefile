@@ -1,14 +1,14 @@
 SHELL = /bin/bash
 
 UNAME := $(shell uname -m)
-PLATFROM = amd64
+PLATFORM = amd64
 ifeq ($(UNAME), arm64)
-  PLATFROM = arm64
+  PLATFORM = arm64
   extra_bats_path = ./common/php-arm64.bats
 endif
 
 docker_bats := docker run --rm \
-		--platform linux/${PLATFROM} \
+		--platform linux/${PLATFORM} \
 		-v $$(pwd):/app -v /var/run/docker.sock:/var/run/docker.sock \
 		-e container \
 		graze/bats
