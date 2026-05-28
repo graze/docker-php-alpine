@@ -26,7 +26,7 @@ Public image for php in alpine with a set of common extensions
 [apcu](http://php.net/manual/en/book.apcu.php) (PHP 7.0 +), [bcmath](http://php.net/manual/en/book.bc.php), Core,
 [ctype](http://php.net/manual/en/book.ctype.php), [curl](http://php.net/manual/en/book.curl.php),
 [date](http://php.net/manual/en/book.datetime.php), [dom](http://php.net/manual/en/book.dom.php),
-[ev](http://php.net/manual/en/book.ev.php), [fileinfo](http://php.net/manual/en/book.fileinfo.php),
+[event](http://php.net/manual/en/book.event.php), [fileinfo](http://php.net/manual/en/book.fileinfo.php),
 [filter](http://php.net/manual/en/book.filter.php), [hash](http://php.net/manual/en/book.hash.php),
 [iconv](http://php.net/manual/en/book.iconv.php) (with a [fix](https://github.com/docker-library/php/issues/240)),
 [intl](http://php.net/manual/en/book.intl.php), [json](http://php.net/manual/en/book.json.php),
@@ -89,6 +89,6 @@ docker run --rm graze/php-alpine -v $(pwd):/srv php some/script.php
 ## Running with phpdbg
 
 ```
-docker run --rm graze/php-alpine:test -v $(pwd):/srv phpdbg7 some/script.php
+docker run --rm graze/php-alpine:test -v $(pwd):/srv phpdbg some/script.php
 ```
 
