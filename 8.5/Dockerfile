@@ -37,7 +37,6 @@ RUN set -xe \
     php85-iconv \
     php85-intl \
     php85-openssl \
-    php85-opcache \
     php85-mbstring \
     php85-mysqlnd \
     php85-mysqli \
@@ -57,8 +56,7 @@ RUN set -xe \
     php85-xml \
     php85-xmlreader \
     php85-xmlwriter \
-    php85-zip \
-    php85-zlib
+    php85-zip
 
 ENV PHP_INI_DIR /etc/php85
 
