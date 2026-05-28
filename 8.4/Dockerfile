@@ -9,7 +9,15 @@ LABEL maintainer="developers@graze.com" \
     org.label-schema.vcs-url="https://github.com/graze/docker-php-alpine"
 
 # Fix for iconv: https://github.com/docker-library/php/issues/240
-RUN apk add gnu-libiconv=1.15-r3 --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ --allow-untrusted
+# gnu-libiconv 1.15-r3 is the last release that ships the LD_PRELOAD-compatible
+# preloadable_libiconv.so; pull it from alpine 3.13/community over HTTPS and
+# install the historical alpine signing key (pinned by sha256) so we don't need
+# --allow-untrusted.
+RUN set -xe \
+    && wget -qO /etc/apk/keys/alpine-devel@lists.alpinelinux.org-4a6a0840.rsa.pub \
+        https://raw.githubusercontent.com/alpinelinux/aports/master/main/alpine-keys/alpine-devel@lists.alpinelinux.org-4a6a0840.rsa.pub \
+    && echo "9c102bcc376af1498d549b77bdbfa815ae86faa1d2d82f040e616b18ef2df2d4  /etc/apk/keys/alpine-devel@lists.alpinelinux.org-4a6a0840.rsa.pub" | sha256sum -c - \
+    && apk add gnu-libiconv=1.15-r3 --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/v3.13/community/
 
 RUN set -xe \
     && echo "@php http://dl-cdn.alpinelinux.org/alpine/v3.21/community" >> /etc/apk/repositories \
