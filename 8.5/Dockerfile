@@ -56,7 +56,8 @@ RUN set -xe \
     php85-xml \
     php85-xmlreader \
     php85-xmlwriter \
-    php85-zip
+    php85-zip \
+    php85-zlib
 
 ENV PHP_INI_DIR /etc/php85
 

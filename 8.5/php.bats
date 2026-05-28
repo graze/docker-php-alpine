@@ -59,4 +59,5 @@
   [[ "${output}" == *"xmlwriter"* ]]
   [[ "${output}" == *"yaml"* ]]
   [[ "${output}" == *"zip"* ]]
+  [[ "${output}" == *"zlib"* ]]
 }
