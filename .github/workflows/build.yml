@@ -11,26 +11,41 @@ jobs:
     name: Load matrix
     runs-on: ubuntu-latest
     outputs:
-      include: ${{ steps.load.outputs.include }}
+      test_matrix: ${{ steps.load.outputs.test_matrix }}
+      build_matrix: ${{ steps.load.outputs.build_matrix }}
+      versions: ${{ steps.load.outputs.versions }}
     steps:
       - uses: actions/checkout@v6
       - id: load
-        run: echo "include=$(jq -c . versions.json)" >> "$GITHUB_OUTPUT"
+        run: |
+          {
+            echo "test_matrix=$(jq -c . versions.json)"
+            echo "build_matrix=$(jq -c '[
+              .[] | . as $v |
+              ($v.platforms | split(",")) as $ps |
+              $ps[] | . as $p | {
+                version: $v.version,
+                platform: $p,
+                platform_slug: ($p | gsub("/"; "-")),
+                runner: (if $p == "linux/arm64" then "ubuntu-24.04-arm" else "ubuntu-latest" end)
+              }
+            ]' versions.json)"
+            echo "versions=$(jq -c '[.[].version]' versions.json)"
+          } >> "$GITHUB_OUTPUT"
 
-  build:
-    name: PHP ${{ matrix.version }}
+  test:
+    name: PHP ${{ matrix.version }} test
     needs: matrix
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        include: ${{ fromJson(needs.matrix.outputs.include) }}
+        include: ${{ fromJson(needs.matrix.outputs.test_matrix) }}
     steps:
       - uses: actions/checkout@v6
 
-      # Test phase uses the default docker driver so the debug image's
-      # `FROM graze/php-alpine:VER` can resolve the just-built base from
-      # the local daemon. The docker driver is single-platform only.
+      # Tests run single-arch on amd64; the docker driver lets the debug
+      # image's `FROM graze/php-alpine:VER` resolve from the local daemon.
       - name: Build (single-arch for tests)
         run: make build-${{ matrix.version }} platform=--platform=linux/amd64
 
@@ -40,28 +55,106 @@ jobs:
       - name: Test
         run: make test-${{ matrix.version }}
 
-      - name: Set up QEMU
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-        uses: docker/setup-qemu-action@v4
+  build:
+    name: PHP ${{ matrix.version }} (${{ matrix.platform }})
+    needs: [matrix, test]
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJson(needs.matrix.outputs.build_matrix) }}
+    steps:
+      - uses: actions/checkout@v6
 
       - name: Set up Docker Buildx
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         uses: docker/setup-buildx-action@v4
 
       - name: Login to Docker Hub
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push (multi-arch)
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      - name: Build and push by digest
+        env:
+          V: ${{ matrix.version }}
+          PLATFORM: ${{ matrix.platform }}
+          SLUG: ${{ matrix.platform_slug }}
         run: |
-          V="${{ matrix.version }}"
           BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
           VCS_REF="$(git rev-parse --short HEAD)"
+          mkdir -p /tmp/digests/main /tmp/digests/test
 
+          docker buildx build \
+            --platform="$PLATFORM" \
+            --build-arg BUILD_DATE="$BUILD_DATE" \
+            --build-arg VCS_REF="$VCS_REF" \
+            --cache-from="type=registry,ref=graze/php-alpine:buildcache-${V}-${SLUG}" \
+            --cache-to="type=registry,ref=graze/php-alpine:buildcache-${V}-${SLUG},mode=max" \
+            --output="type=image,name=graze/php-alpine,push-by-digest=true,name-canonical=true,push=true" \
+            --metadata-file=/tmp/main-metadata.json \
+            "./$V"
+
+          main_digest=$(jq -r '."containerimage.digest"' /tmp/main-metadata.json)
+
+          # The debug Dockerfile does `FROM graze/php-alpine:${V}`. We push the
+          # main image by digest only (no tag), so override the FROM lookup with
+          # the digest we just built — otherwise the debug image would derive
+          # from whatever `:${V}` is currently published (the previous build, or
+          # nothing on a first-time deploy).
+          docker buildx build \
+            --platform="$PLATFORM" \
+            --build-arg BUILD_DATE="$BUILD_DATE" \
+            --build-arg VCS_REF="$VCS_REF" \
+            --build-context "graze/php-alpine:${V}=docker-image://graze/php-alpine@${main_digest}" \
+            -f "./$V/debug.Dockerfile" \
+            --cache-from="type=registry,ref=graze/php-alpine:buildcache-${V}-test-${SLUG}" \
+            --cache-to="type=registry,ref=graze/php-alpine:buildcache-${V}-test-${SLUG},mode=max" \
+            --output="type=image,name=graze/php-alpine,push-by-digest=true,name-canonical=true,push=true" \
+            --metadata-file=/tmp/test-metadata.json \
+            "./$V"
+
+          test_digest=$(jq -r '."containerimage.digest"' /tmp/test-metadata.json)
+          touch "/tmp/digests/main/${main_digest#sha256:}"
+          touch "/tmp/digests/test/${test_digest#sha256:}"
+
+      - name: Upload digests
+        uses: actions/upload-artifact@v4
+        with:
+          name: digests-${{ matrix.version }}-${{ matrix.platform_slug }}
+          path: /tmp/digests
+          retention-days: 1
+
+  manifest:
+    name: PHP ${{ matrix.version }} manifest
+    needs: [matrix, build]
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ${{ fromJson(needs.matrix.outputs.versions) }}
+    steps:
+      - name: Download digests
+        uses: actions/download-artifact@v4
+        with:
+          path: /tmp/digests
+          pattern: digests-${{ matrix.version }}-*
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Create multi-arch manifests
+        env:
+          V: ${{ matrix.version }}
+        run: |
           main_tags="-t graze/php-alpine:${V}"
           test_tags="-t graze/php-alpine:${V}-test"
           case "$V" in
@@ -79,19 +172,13 @@ jobs:
               ;;
           esac
 
-          docker buildx build \
-            --push \
-            --platform=${{ matrix.platforms }} \
-            --build-arg BUILD_DATE="$BUILD_DATE" \
-            --build-arg VCS_REF="$VCS_REF" \
-            $main_tags \
-            "./$V"
+          main_sources=$(find /tmp/digests -path '*/main/*' -type f -printf 'graze/php-alpine@sha256:%f ')
+          test_sources=$(find /tmp/digests -path '*/test/*' -type f -printf 'graze/php-alpine@sha256:%f ')
 
-          docker buildx build \
-            --push \
-            --platform=${{ matrix.platforms }} \
-            --build-arg BUILD_DATE="$BUILD_DATE" \
-            --build-arg VCS_REF="$VCS_REF" \
-            -f "./$V/debug.Dockerfile" \
-            $test_tags \
-            "./$V"
+          if [ -z "$main_sources" ] || [ -z "$test_sources" ]; then
+            echo "Missing digests for ${V}" >&2
+            exit 1
+          fi
+
+          docker buildx imagetools create $main_tags $main_sources
+          docker buildx imagetools create $test_tags $test_sources
