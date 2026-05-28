@@ -96,10 +96,18 @@ jobs:
             --metadata-file=/tmp/main-metadata.json \
             "./$V"
 
+          main_digest=$(jq -r '."containerimage.digest"' /tmp/main-metadata.json)
+
+          # The debug Dockerfile does `FROM graze/php-alpine:${V}`. We push the
+          # main image by digest only (no tag), so override the FROM lookup with
+          # the digest we just built — otherwise the debug image would derive
+          # from whatever `:${V}` is currently published (the previous build, or
+          # nothing on a first-time deploy).
           docker buildx build \
             --platform="$PLATFORM" \
             --build-arg BUILD_DATE="$BUILD_DATE" \
             --build-arg VCS_REF="$VCS_REF" \
+            --build-context "graze/php-alpine:${V}=docker-image://graze/php-alpine@${main_digest}" \
             -f "./$V/debug.Dockerfile" \
             --cache-from="type=registry,ref=graze/php-alpine:buildcache-${V}-test-${SLUG}" \
             --cache-to="type=registry,ref=graze/php-alpine:buildcache-${V}-test-${SLUG},mode=max" \
@@ -107,7 +115,6 @@ jobs:
             --metadata-file=/tmp/test-metadata.json \
             "./$V"
 
-          main_digest=$(jq -r '."containerimage.digest"' /tmp/main-metadata.json)
           test_digest=$(jq -r '."containerimage.digest"' /tmp/test-metadata.json)
           touch "/tmp/digests/main/${main_digest#sha256:}"
           touch "/tmp/digests/test/${test_digest#sha256:}"
