@@ -41,12 +41,9 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v4
-
+      # Test phase uses the default docker driver so the debug image's
+      # `FROM graze/php-alpine:VER` can resolve the just-built base from
+      # the local daemon. The docker driver is single-platform only.
       - name: Build (single-arch for tests)
         run: make build-${{ matrix.version }} platform=--platform=linux/amd64
 
@@ -55,6 +52,14 @@ jobs:
 
       - name: Test
         run: make test-${{ matrix.version }}
+
+      - name: Set up QEMU
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        uses: docker/setup-qemu-action@v4
+
+      - name: Set up Docker Buildx
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        uses: docker/setup-buildx-action@v4
 
       - name: Login to Docker Hub
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'

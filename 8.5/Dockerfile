@@ -1,4 +1,4 @@
-FROM alpine:3.22
+FROM alpine:3.23
 
 LABEL maintainer="developers@graze.com" \
     license="MIT" \
@@ -12,7 +12,7 @@ LABEL maintainer="developers@graze.com" \
 RUN apk add gnu-libiconv=1.15-r3 --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ --allow-untrusted
 
 RUN set -xe \
-    && echo "@php http://dl-cdn.alpinelinux.org/alpine/v3.22/community" >> /etc/apk/repositories \
+    && echo "@php http://dl-cdn.alpinelinux.org/alpine/v3.23/community" >> /etc/apk/repositories \
     && apk add --update --no-cache \
     ca-certificates \
     curl \

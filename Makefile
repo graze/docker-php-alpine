@@ -11,6 +11,9 @@ docker_bats := docker run --rm \
 		--platform linux/${PLATFORM} \
 		-v $$(pwd):/app -v /var/run/docker.sock:/var/run/docker.sock \
 		-e container \
+		-e GIT_CONFIG_COUNT=1 \
+		-e GIT_CONFIG_KEY_0=safe.directory \
+		-e GIT_CONFIG_VALUE_0=* \
 		graze/bats
 
 build_args := --build-arg BUILD_DATE=$(shell date -u +"%Y-%m-%dT%H:%M:%SZ") \
