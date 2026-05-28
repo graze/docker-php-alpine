@@ -40,7 +40,8 @@ RUN set -xe \
         sockets \
         zip \
     && yes '' | pecl install apcu event memcached yaml \
-    && docker-php-ext-enable apcu memcached yaml sodium \
+    # opcache ships as a shared module on 8.3 and isn't enabled by upstream
+    && docker-php-ext-enable apcu memcached yaml sodium opcache \
     # event must load after sockets, hence the zz- prefix
     && docker-php-ext-enable --ini-name zz-docker-php-ext-event.ini event \
     && apk del --no-network .build-deps \
