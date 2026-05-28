@@ -19,7 +19,7 @@ docker_bats := docker run --rm \
 build_args := --build-arg BUILD_DATE=$(shell date -u +"%Y-%m-%dT%H:%M:%SZ") \
               --build-arg VCS_REF=$(shell git rev-parse --short HEAD)
 
-VERSIONS := 5.6 7.0 7.1 7.2 7.3 7.4 8.0 8.1 8.2 8.3 8.4 8.5
+VERSIONS := $(shell jq -r '.[].version' versions.json)
 
 latest_5 := 5.6
 latest_7 := 7.4

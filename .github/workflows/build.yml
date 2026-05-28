@@ -7,37 +7,24 @@ on:
     branches: [master]
 
 jobs:
+  matrix:
+    name: Load matrix
+    runs-on: ubuntu-latest
+    outputs:
+      include: ${{ steps.load.outputs.include }}
+    steps:
+      - uses: actions/checkout@v6
+      - id: load
+        run: echo "include=$(jq -c . versions.json)" >> "$GITHUB_OUTPUT"
+
   build:
     name: PHP ${{ matrix.version }}
+    needs: matrix
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - version: "5.6"
-            platforms: "linux/amd64"
-          - version: "7.0"
-            platforms: "linux/amd64"
-          - version: "7.1"
-            platforms: "linux/amd64"
-          - version: "7.2"
-            platforms: "linux/amd64"
-          - version: "7.3"
-            platforms: "linux/amd64,linux/arm/v7,linux/arm64"
-          - version: "7.4"
-            platforms: "linux/amd64,linux/arm/v7,linux/arm64"
-          - version: "8.0"
-            platforms: "linux/amd64,linux/arm/v7,linux/arm64"
-          - version: "8.1"
-            platforms: "linux/amd64,linux/arm/v7,linux/arm64"
-          - version: "8.2"
-            platforms: "linux/amd64,linux/arm/v7,linux/arm64"
-          - version: "8.3"
-            platforms: "linux/amd64,linux/arm/v7,linux/arm64"
-          - version: "8.4"
-            platforms: "linux/amd64,linux/arm/v7,linux/arm64"
-          - version: "8.5"
-            platforms: "linux/amd64,linux/arm/v7,linux/arm64"
+        include: ${{ fromJson(needs.matrix.outputs.include) }}
     steps:
       - uses: actions/checkout@v6
 
