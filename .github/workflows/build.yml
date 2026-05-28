@@ -36,7 +36,7 @@ jobs:
         uses: docker/setup-buildx-action@v4
 
       - name: Build
-        run: make build-${{ matrix.version }}
+        run: make build-${{ matrix.version }} platform=--platform=linux/amd64
 
       - name: Tag
         run: make tag-${{ matrix.version }}
