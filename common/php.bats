@@ -82,28 +82,26 @@
 }
 
 @test "php should have a memory limit of 1024M" {
-  run bash -c "docker run --rm ${container} php -i | grep memory_limit"
+  run bash -c "docker run --rm ${container} php -i | grep -w memory_limit"
   echo "status: $status"
   echo "output: $output"
   [ "$status" -eq 0 ]
   [ "$output" = "memory_limit => 1024M => 1024M" ]
 }
 
-@test "the image uses a fixed iconv module" {
-  run bash -c "docker inspect ${container} | jq -r '.[]?.Config.Env[]'"
+@test "iconv //TRANSLIT works" {
+  run docker run ${container} php -r 'echo iconv("UTF-8", "ASCII//TRANSLIT", "café");'
   echo "status: $status"
   echo "output: $output"
   [ "$status" -eq 0 ]
-  [[ "${output}" == *"LD_PRELOAD=/usr/lib/preloadable_libiconv.so php"* ]]
-}
-
-@test "iconv works" {
-  run docker run ${container} php -r 'echo iconv("UTF-8", "ASCII//TRANSLIT", "foobar");'
-  echo "status: $status"
-  echo "output: $output"
-  [ "$status" -eq 0 ]
-  [ "$output" = "foobar" ]
+  # gnu-libiconv's transliteration of 'é' varies across versions ("caf'e"
+  # in 1.15-r3, "cafe" in 1.18+). Both are valid; what we care about is
+  # that TRANSLIT didn't fall back to musl's iconv (which would warn and
+  # return the original byte sequence).
+  [[ "${output}" != *"PHP Warning"* ]]
   [[ "${output}" != *"PHP Notice"* ]]
+  [[ "${output}" == caf* ]]
+  [ "${output}" != "café" ]
 }
 
 @test "the image has curl installed" {
