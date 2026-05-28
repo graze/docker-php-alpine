@@ -82,7 +82,7 @@
 }
 
 @test "php should have a memory limit of 1024M" {
-  run bash -c "docker run --rm ${container} php -i | grep memory_limit"
+  run bash -c "docker run --rm ${container} php -i | grep -w memory_limit"
   echo "status: $status"
   echo "output: $output"
   [ "$status" -eq 0 ]
