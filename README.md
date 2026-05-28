@@ -1,6 +1,6 @@
 # PHP Alpine Base Images
 
-[![Build Status](https://img.shields.io/travis/graze/docker-php-alpine/master.svg)](https://travis-ci.org/graze/docker-php-alpine)
+[![Build Status](https://github.com/graze/docker-php-alpine/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/graze/docker-php-alpine/actions/workflows/build.yml)
 [![Docker Pulls](https://img.shields.io/docker/pulls/graze/php-alpine.svg)](https://hub.docker.com/r/graze/php-alpine/)
 [![Image Size](https://images.microbadger.com/badges/image/graze/php-alpine.svg)](https://microbadger.com/images/graze/php-alpine)
 
@@ -8,7 +8,12 @@ Public image for php in alpine with a set of common extensions
 
 ## Images
 
-- `8.0`, `8`, `latest` [8.0/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/8.0/Dockerfile)
+- `8.5`, `8`, `latest` [8.5/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/8.5/Dockerfile)
+- `8.4` [8.4/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/8.4/Dockerfile)
+- `8.3` [8.3/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/8.3/Dockerfile)
+- `8.2` [8.2/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/8.2/Dockerfile)
+- `8.1` [8.1/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/8.1/Dockerfile)
+- `8.0` [8.0/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/8.0/Dockerfile)
 - `7.4`, `7` [7.4/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.4/Dockerfile)
 - `7.3` [7.3/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.3/Dockerfile)
 - `7.2` [7.2/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.2/Dockerfile)
@@ -45,7 +50,12 @@ standard, [tokenizer](http://php.net/manual/en/book.tokenizer.php), [xml](http:/
 
 Testing images are the same as the standard, but with xdebug (php 5.6) or phpdbg (php 7.* and 8.*)
 
-- `8.0-test`, `8-test`, `test` [8.0/debug.Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/8.0/debug.Dockerfile)
+- `8.5-test`, `8-test`, `test` [8.5/debug.Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/8.5/debug.Dockerfile)
+- `8.4-test` [8.4/debug.Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/8.4/debug.Dockerfile)
+- `8.3-test` [8.3/debug.Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/8.3/debug.Dockerfile)
+- `8.2-test` [8.2/debug.Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/8.2/debug.Dockerfile)
+- `8.1-test` [8.1/debug.Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/8.1/debug.Dockerfile)
+- `8.0-test` [8.0/debug.Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/8.0/debug.Dockerfile)
 - `7.4-test`, `7-test` [7.4/debug.Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.4/debug.Dockerfile)
 - `7.3-test` [7.3/debug.Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.3/debug.Dockerfile)
 - `7.2-test` [7.2/debug.Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.2/debug.Dockerfile)

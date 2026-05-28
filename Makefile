@@ -18,8 +18,8 @@ build_args := --build-arg BUILD_DATE=$(shell date -u +"%Y-%m-%dT%H:%M:%SZ") \
 
 latest_5 := 5.6
 latest_7 := 7.4
-latest_8 := 8.2
-latest := 8.2
+latest_8 := 8.5
+latest := 8.5
 
 .PHONY: build build-quick
 .PHONY: tag
@@ -30,25 +30,25 @@ latest := 8.2
 .PHONY: prod-build prod-build-quick
 
 .DEFAULT: build
-build: build-5.6 build-7.0 build-7.1 build-7.2 build-7.3 build-7.4 build-8.0 build-8.1 build-8.2
+build: build-5.6 build-7.0 build-7.1 build-7.2 build-7.3 build-7.4 build-8.0 build-8.1 build-8.2 build-8.3 build-8.4 build-8.5
 build-quick:
 	make build cache="" pull=""
 
 build-quick-%:
 	make build-$* cache="" pull=""
 
-prod-build: prod-build-5.6 prod-build-7.0 prod-build-7.1 prod-build-7.2 prod-build-7.3 prod-build-7.4 prod-build-8.0 prod-build-8.1 prod-build-8.2
+prod-build: prod-build-5.6 prod-build-7.0 prod-build-7.1 prod-build-7.2 prod-build-7.3 prod-build-7.4 prod-build-8.0 prod-build-8.1 prod-build-8.2 prod-build-8.3 prod-build-8.4 prod-build-8.5
 prod-build-quick:
 	make prod-build cache="" pull=""
 
 prod-build-quick-%:
 	make prod-build-$* cache="" pull=""
 
-tag: tag-5.6 tag-7.0 tag-7.1 tag-7.2 tag-7.3 tag-7.4 tag-8.0 tag-8.1 test-8.2
-test: test-5.6 test-7.0 test-7.1 test-7.2 test-7.3 test-7.4 test-8.0 test-8.1 test-8.2
-push: push-5.6 push-7.0 push-7.1 push-7.2 push-7.3 push-7.4 push-8.0 push-8.1 push-8.2
-clean: clean-5.6 clean-7.0 clean-7.1 clean-7.2 clean-7.3 clean-7.4 clean-8.0 clean-8.1 clean-8.2
-deploy: deploy-5.6 deploy-7.0 deploy-7.1 deploy-7.2 deploy-7.3 deploy-7.4 deploy-8.0 deploy-8.1 deploy-8.2
+tag: tag-5.6 tag-7.0 tag-7.1 tag-7.2 tag-7.3 tag-7.4 tag-8.0 tag-8.1 tag-8.2 tag-8.3 tag-8.4 tag-8.5
+test: test-5.6 test-7.0 test-7.1 test-7.2 test-7.3 test-7.4 test-8.0 test-8.1 test-8.2 test-8.3 test-8.4 test-8.5
+push: push-5.6 push-7.0 push-7.1 push-7.2 push-7.3 push-7.4 push-8.0 push-8.1 push-8.2 push-8.3 push-8.4 push-8.5
+clean: clean-5.6 clean-7.0 clean-7.1 clean-7.2 clean-7.3 clean-7.4 clean-8.0 clean-8.1 clean-8.2 clean-8.3 clean-8.4 clean-8.5
+deploy: deploy-5.6 deploy-7.0 deploy-7.1 deploy-7.2 deploy-7.3 deploy-7.4 deploy-8.0 deploy-8.1 deploy-8.2 deploy-8.3 deploy-8.4 deploy-8.5
 
 build-%: cache ?= --no-cache
 build-%: pull ?= --pull
