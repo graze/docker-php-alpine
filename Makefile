@@ -13,7 +13,7 @@ docker_bats := docker run --rm \
 		-e container \
 		-e GIT_CONFIG_COUNT=1 \
 		-e GIT_CONFIG_KEY_0=safe.directory \
-		-e GIT_CONFIG_VALUE_0=* \
+		-e GIT_CONFIG_VALUE_0=/app \
 		graze/bats
 
 build_args := --build-arg BUILD_DATE=$(shell date -u +"%Y-%m-%dT%H:%M:%SZ") \

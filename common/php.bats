@@ -94,9 +94,14 @@
   echo "status: $status"
   echo "output: $output"
   [ "$status" -eq 0 ]
-  [ "$output" = "caf'e" ]
+  # gnu-libiconv's transliteration of 'é' varies across versions ("caf'e"
+  # in 1.15-r3, "cafe" in 1.18+). Both are valid; what we care about is
+  # that TRANSLIT didn't fall back to musl's iconv (which would warn and
+  # return the original byte sequence).
   [[ "${output}" != *"PHP Warning"* ]]
   [[ "${output}" != *"PHP Notice"* ]]
+  [[ "${output}" == caf* ]]
+  [ "${output}" != "café" ]
 }
 
 @test "the image has curl installed" {
