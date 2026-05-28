@@ -89,20 +89,13 @@
   [ "$output" = "memory_limit => 1024M => 1024M" ]
 }
 
-@test "the image uses a fixed iconv module" {
-  run bash -c "docker inspect ${container} | jq -r '.[]?.Config.Env[]'"
+@test "iconv //TRANSLIT works" {
+  run docker run ${container} php -r 'echo iconv("UTF-8", "ASCII//TRANSLIT", "café");'
   echo "status: $status"
   echo "output: $output"
   [ "$status" -eq 0 ]
-  [[ "${output}" == *"LD_PRELOAD=/usr/lib/preloadable_libiconv.so php"* ]]
-}
-
-@test "iconv works" {
-  run docker run ${container} php -r 'echo iconv("UTF-8", "ASCII//TRANSLIT", "foobar");'
-  echo "status: $status"
-  echo "output: $output"
-  [ "$status" -eq 0 ]
-  [ "$output" = "foobar" ]
+  [ "$output" = "caf'e" ]
+  [[ "${output}" != *"PHP Warning"* ]]
   [[ "${output}" != *"PHP Notice"* ]]
 }
 

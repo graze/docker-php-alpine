@@ -1,9 +1,9 @@
 #!/usr/bin/env bats
 
 @test "the image has phpdbg" {
-  run docker run ${container} which phpdbg84
+  run docker run ${container} which phpdbg
   echo 'status:' $status
   echo 'output:' $output
   [ "$status" -eq 0 ]
-  [[ "${output}" == *"phpdbg84"* ]]
+  [[ "${output}" == *"phpdbg"* ]]
 }
