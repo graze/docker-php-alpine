@@ -1,0 +1,8 @@
+--- a/tests/lang/bug45392.phpt
++++ b/tests/lang/bug45392.phpt
+@@ -20,4 +20,5 @@
+ ?>
+ --EXPECTF--
+ 2
++
+ Fatal error: Allowed memory size of %d bytes exhausted%s

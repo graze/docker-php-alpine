@@ -217,3 +217,19 @@ sapi/fpm/tests/bug68391-conf-include-order.phpt
 
 # compilation failed https://gitlab.alpinelinux.org/alpine/aports/-/issues/13116
 ext/pcre/tests/bug70345.phpt
+
+# Session upload progress is turned off by the CVE-2026-109618/109619 fix
+ext/session/tests/rfc1867.phpt
+ext/session/tests/rfc1867_inter.phpt
+ext/session/tests/rfc1867_sid_cookie.phpt
+ext/session/tests/rfc1867_sid_get.phpt
+ext/session/tests/rfc1867_sid_get_2.phpt
+ext/session/tests/rfc1867_sid_invalid.phpt
+ext/session/tests/rfc1867_sid_only_cookie.phpt
+ext/session/tests/rfc1867_sid_post.phpt
+
+# Fail with and without the CVE-2026-109618/109619 fix when built in Docker
+ext/curl/tests/curl_basic_009.phpt
+ext/date/tests/bug73837.phpt
+ext/standard/tests/streams/opendir-003.phpt
+ext/standard/tests/streams/opendir-004.phpt
