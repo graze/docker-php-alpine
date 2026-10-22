@@ -26,7 +26,7 @@
 pkgname=php7
 _pkgreal=php
 pkgver=7.4.33
-pkgrel=1
+pkgrel=2
 _apiver=20190902
 _suffix=${pkgname#php}
 # Is this package the default (latest) PHP version?
@@ -108,6 +108,7 @@ source="https://php.net/distributions/$_pkgreal-$pkgver.tar.xz
 	fix-fpm-tests.patch
 	fix-fpm-syntax.patch
 	fix-curl-7.83-test.patch
+	CVE-2026-109618-109619.patch
 	"
 builddir="$srcdir/$_pkgreal-$pkgver"
 
@@ -727,4 +728,5 @@ f7e87369658e333247896cb3cc6d56a54e2041453c0dc78180d7d31ac5008f98837039c215beda24
 81fe1bc37129c8902c572d63f9c4c266cabf61c1217d8b079b020dd60ad49e725426dc201b4c0d044d8a6793b15a2a58eac6595ceb1f8a91aa9b2ea9728adfd6  fix-fpm-tests.patch
 5582cbf13dcc9c536c6a9881183fedd40d35497c527e20e9e8e3288ce6219d9218dd16d9f43cc4412fd471b84df786076141f8409f950578b50d1540244f29f2  fix-fpm-syntax.patch
 be6a57063414bd255def54d5f6e42cbdc3baec55c8eaf9c8ca6e96d0cb3fec942ebb1868806850859d34c5c45d03a2abfec3fecd1aef04524da8eda01d9041ed  fix-curl-7.83-test.patch
+1f73855623c03ce6202610500989a6f08eb3a7cd4a80d007fd078644b142b8e51aab28fefab876c03c935f112c7162d696d42cb983961f6cb6c3c4586513bb49  CVE-2026-109618-109619.patch
 "
