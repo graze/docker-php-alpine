@@ -15,6 +15,9 @@ Public image for php in alpine with a set of common extensions
 - `8.1` [8.1/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/8.1/Dockerfile)
 - `8.0` [8.0/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/8.0/Dockerfile)
 - `7.4`, `7` [7.4/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.4/Dockerfile)
+
+No longer built (the published tags stay on Docker Hub but get no updates):
+
 - `7.3` [7.3/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.3/Dockerfile)
 - `7.2` [7.2/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.2/Dockerfile)
 - `7.1` [7.1/Dockerfile](https://github.com/graze/docker-php-alpine/blob/master/7.1/Dockerfile)
