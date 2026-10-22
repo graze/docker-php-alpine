@@ -32,11 +32,10 @@ COPY --from=php7-build /home/builder/packages/community /opt/php7-apk
 RUN set -xe \
     && sed -i '1i /opt/php7-apk' /etc/apk/repositories \
     && echo "@php http://dl-cdn.alpinelinux.org/alpine/v3.15/community" >> /etc/apk/repositories \
-    && echo "@alpine313 http://dl-cdn.alpinelinux.org/alpine/v3.13/community" >> /etc/apk/repositories \
+    && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community gnu-libiconv=1.15-r3 \
     && apk add --update --no-cache \
     ca-certificates \
     curl \
-    gnu-libiconv@alpine313=1.15-r3 \
     openssh-client \
     libmemcached-libs \
     libevent \
