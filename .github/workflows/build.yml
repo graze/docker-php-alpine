@@ -16,10 +16,26 @@ jobs:
       versions: ${{ steps.load.outputs.versions }}
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
       - id: load
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
+          test_matrix=$(jq -c . versions.json)
+          if [ "$EVENT" = "pull_request" ] && changed=$(git diff --name-only "${BASE_SHA}...${HEAD_SHA}"); then
+            test_matrix=$(printf '%s\n' "$changed" | jq -R -s -c --slurpfile all versions.json '
+              ($all[0] | map(.version)) as $known |
+              (split("\n") | map(select(length > 0) | split("/"))) as $parts |
+              if ($parts | length) > 0 and ($parts | all(length > 1 and (.[0] as $d | $known | index($d) != null)))
+              then ($parts | map(.[0]) | unique) as $vs | $all[0] | map(select(.version as $v | $vs | index($v) != null))
+              else $all[0] end')
+          fi
+          echo "Testing: $(jq -r '[.[].version] | join(", ")' <<< "$test_matrix")"
           {
-            echo "test_matrix=$(jq -c . versions.json)"
+            echo "test_matrix=${test_matrix}"
             echo "build_matrix=$(jq -c '[
               .[] | . as $v |
               ($v.platforms | split(",")) as $ps |
