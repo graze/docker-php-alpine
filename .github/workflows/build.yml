@@ -25,7 +25,7 @@ jobs:
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           test_matrix=$(jq -c . versions.json)
-          if [ "$EVENT" = "pull_request" ] && changed=$(git diff --name-only "${BASE_SHA}...${HEAD_SHA}"); then
+          if [ "$EVENT" = "pull_request" ] && changed=$(git diff --name-only --no-renames "${BASE_SHA}...${HEAD_SHA}"); then
             test_matrix=$(printf '%s\n' "$changed" | jq -R -s -c --slurpfile all versions.json '
               ($all[0] | map(.version)) as $known |
               (split("\n") | map(select(length > 0) | split("/"))) as $parts |
