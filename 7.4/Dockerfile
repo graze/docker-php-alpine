@@ -1,4 +1,22 @@
-FROM alpine:3.13
+FROM alpine:3.15 AS php7-build
+
+ENV PACKAGER="graze <developers@graze.com>"
+
+RUN apk add --no-cache alpine-sdk \
+    && apk update \
+    && adduser -D builder \
+    && addgroup builder abuild
+
+USER builder
+
+COPY --chown=builder aports/community/php7 /home/builder/community/php7
+
+WORKDIR /home/builder/community/php7
+
+RUN abuild-keygen -a -n \
+    && abuild -r
+
+FROM alpine:3.15
 
 LABEL maintainer="developers@graze.com" \
     license="MIT" \
@@ -8,12 +26,17 @@ LABEL maintainer="developers@graze.com" \
     org.label-schema.description="small php image based on alpine" \
     org.label-schema.vcs-url="https://github.com/graze/docker-php-alpine"
 
+COPY --from=php7-build /home/builder/.abuild/*.rsa.pub /etc/apk/keys/
+COPY --from=php7-build /home/builder/packages/community /opt/php7-apk
+
 RUN set -xe \
-    && echo "@php http://dl-cdn.alpinelinux.org/alpine/v3.13/community" >> /etc/apk/repositories \
+    && sed -i '1i /opt/php7-apk' /etc/apk/repositories \
+    && echo "@php http://dl-cdn.alpinelinux.org/alpine/v3.15/community" >> /etc/apk/repositories \
+    && echo "@alpine313 http://dl-cdn.alpinelinux.org/alpine/v3.13/community" >> /etc/apk/repositories \
     && apk add --update --no-cache \
     ca-certificates \
     curl \
-    gnu-libiconv \
+    gnu-libiconv@alpine313=1.15-r3 \
     openssh-client \
     libmemcached-libs \
     libevent \
