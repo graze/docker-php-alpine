@@ -62,3 +62,19 @@
   [[ "${output}" == *"zip"* ]]
   [[ "${output}" == *"zlib"* ]]
 }
+
+@test "php7 is the build patched for CVE-2026-109618 and CVE-2026-109619" {
+  run docker run --rm ${container} sh -c "apk info -v 2>/dev/null | grep '^php7-common-'"
+  echo 'status:' $status
+  echo 'output:' $output
+  [ "$status" -eq 0 ]
+  [[ "${output}" == *"php7-common-7.4.33-r2"* ]]
+}
+
+@test "php7 packages added later come from the patched build" {
+  run docker run --rm ${container} apk add --no-cache --simulate php7-apache2
+  echo 'status:' $status
+  echo 'output:' $output
+  [ "$status" -eq 0 ]
+  [[ "${output}" == *"php7-apache2 (7.4.33-r2)"* ]]
+}
