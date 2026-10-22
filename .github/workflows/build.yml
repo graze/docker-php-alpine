@@ -154,6 +154,7 @@ jobs:
       - name: Create multi-arch manifests
         env:
           V: ${{ matrix.version }}
+          BUILD_MATRIX: ${{ needs.matrix.outputs.build_matrix }}
         run: |
           main_tags="-t graze/php-alpine:${V}"
           test_tags="-t graze/php-alpine:${V}-test"
@@ -175,8 +176,12 @@ jobs:
           main_sources=$(find /tmp/digests -path '*/main/*' -type f -printf 'graze/php-alpine@sha256:%f ')
           test_sources=$(find /tmp/digests -path '*/test/*' -type f -printf 'graze/php-alpine@sha256:%f ')
 
-          if [ -z "$main_sources" ] || [ -z "$test_sources" ]; then
-            echo "Missing digests for ${V}" >&2
+          expected=$(jq --arg v "$V" '[.[] | select(.version == $v)] | length' <<< "$BUILD_MATRIX")
+          main_count=$(find /tmp/digests -path '*/main/*' -type f | wc -l)
+          test_count=$(find /tmp/digests -path '*/test/*' -type f | wc -l)
+
+          if [ "$expected" -lt 1 ] || [ "$main_count" -ne "$expected" ] || [ "$test_count" -ne "$expected" ]; then
+            echo "Missing digests for ${V}: expected ${expected} platforms, got ${main_count} main and ${test_count} test" >&2
             exit 1
           fi
 
