@@ -14,7 +14,8 @@ COPY --chown=builder aports/community/php7 /home/builder/community/php7
 WORKDIR /home/builder/community/php7
 
 RUN abuild-keygen -a -n \
-    && abuild -r
+    && abuild -r \
+    && rm -f /home/builder/.abuild/*.rsa
 
 FROM alpine:3.15
 
